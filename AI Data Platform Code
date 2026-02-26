@@ -1,0 +1,32 @@
+import pandas as pd
+
+df = pd.read_csv("Business_Analytics_Dataset_10000_Rows.csv")
+df.head()
+
+df.info()
+df.describe()
+
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+df['Profit_Margin'] = df['Profit'] / df['Revenue']
+
+!pip install scikit-learn
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+features = df[['Discount_Rate', 'Cost']]
+target = df['Revenue']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    features, target, test_size=0.2, random_state=42
+)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+print("Model R²:", model.score(X_test, y_test))
+print("Coefficients:", dict(zip(features.columns, model.coef_)))
+print("Intercept:", model.intercept_)
+
+df.to_csv("processed_business_analytics.csv", index=False)
