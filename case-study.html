@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Analytics · Oracle AI Platform Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal:        #1B6B7B;
+    --teal-light:  #2a8fa3;
+    --teal-dim:    #0d3d47;
+    --cream:       #F5F0E8;
+    --warm:        #EDE8DC;
+    --ink:         #1A1A1A;
+    --muted:       #6B6560;
+    --orange:      #C85A00;
+    --rule:        rgba(27,107,123,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--teal-dim);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,240,232,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,240,232,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    animation: gridDrift 30s linear infinite;
+  }
+
+  @keyframes gridDrift {
+    from { background-position: 0 0; }
+    to   { background-position: 48px 48px; }
+  }
+
+  .hero-graphic {
+    position: absolute;
+    top: 0; right: 0;
+    width: 52%; height: 100%;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -100px; right: -60px;
+    width: 560px; height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,143,163,0.3) 0%, transparent 68%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 10% 72px;
+    max-width: 1100px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.1s forwards;
+  }
+
+  .hero-eyebrow span {
+    display: inline-block;
+    border: 1px solid var(--teal-light);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-right: 12px;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 1.0;
+    color: var(--cream);
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.25s forwards;
+  }
+
+  .hero-title em { font-style: italic; color: var(--teal-light); }
+
+  .hero-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 52px);
+    line-height: 1.1;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.38s forwards;
+  }
+
+  .hero-meta {
+    display: flex; gap: 40px; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.52s forwards;
+  }
+
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+
+  .hero-meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--teal-light);
+  }
+
+  .hero-meta-value { font-size: 15px; font-weight: 600; color: var(--cream); }
+
+  .hero-scroll {
+    position: absolute; bottom: 32px; right: 10%;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: rgba(245,240,232,0.3);
+    writing-mode: vertical-rl;
+    display: flex; align-items: center; gap: 12px;
+    animation: fadeIn 1s 1.3s both;
+  }
+
+  .hero-scroll::after {
+    content: '';
+    width: 1px; height: 56px;
+    background: linear-gradient(to bottom, rgba(245,240,232,0.3), transparent);
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 10%; }
+
+  section { padding: 96px 0; border-bottom: 1px solid var(--rule); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--rule); max-width: 120px;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(30px, 4vw, 50px);
+    line-height: 1.1; color: var(--ink); margin-bottom: 24px;
+  }
+
+  p {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400; color: var(--muted);
+    font-size: 16px; line-height: 1.75; margin-bottom: 16px;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  /* STATS BAND */
+  .stats-band { background: var(--teal-dim); border-bottom: none; padding: 0; }
+
+  .stats-inner {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-left: 1px solid rgba(245,240,232,0.07);
+  }
+
+  .stat-cell {
+    padding: 52px 40px;
+    border-right: 1px solid rgba(245,240,232,0.07);
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+  }
+
+  .stat-cell::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--teal-light);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .stat-cell:hover { background: rgba(42,143,163,0.08); }
+  .stat-cell:hover::after { transform: scaleX(1); }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 50px; line-height: 1;
+    color: var(--cream); margin-bottom: 8px; display: block;
+  }
+
+  .stat-num sup { font-size: 22px; vertical-align: super; }
+
+  .stat-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--teal-light);
+  }
+
+  /* OVERVIEW */
+  .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+  /* PIPELINE */
+  .pipeline { background: var(--warm); border-bottom: none; }
+
+  .pipeline-steps {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 0; margin-top: 56px; position: relative;
+  }
+
+  .pipeline-steps::before {
+    content: '';
+    position: absolute; top: 36px; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  }
+
+  .pipeline-step {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 12px;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .pipeline-step.visible { opacity: 1; transform: translateY(0); }
+
+  .step-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--teal-dim);
+    border: 2px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; position: relative; z-index: 1;
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  .pipeline-step:hover .step-icon { transform: scale(1.1); background: var(--teal); }
+
+  .step-icon svg {
+    width: 26px; height: 26px;
+    stroke: var(--teal-light); fill: none;
+    stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    transition: stroke 0.3s;
+  }
+
+  .pipeline-step:hover .step-icon svg { stroke: var(--cream); }
+
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; color: var(--teal); margin-bottom: 6px;
+  }
+
+  .step-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+
+  .step-detail { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.6; }
+
+  /* FINDINGS */
+  .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+
+  .finding-card {
+    background: white; border: 1px solid var(--rule);
+    padding: 36px; position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .finding-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(27,107,123,0.09); }
+
+  .finding-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--teal);
+  }
+
+  .finding-card.accent::before { background: var(--orange); }
+
+  .finding-icon {
+    width: 40px; height: 40px; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(27,107,123,0.07); border-radius: 8px;
+  }
+
+  .finding-card.accent .finding-icon { background: rgba(200,90,0,0.07); }
+
+  .finding-icon svg {
+    width: 20px; height: 20px; stroke: var(--teal); fill: none;
+    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .finding-card.accent .finding-icon svg { stroke: var(--orange); }
+
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px; color: var(--teal); line-height: 1;
+    margin-bottom: 8px; display: block;
+  }
+
+  .finding-card.accent .finding-num { color: var(--orange); }
+
+  .finding-label {
+    font-size: 13px; font-weight: 700; color: var(--ink);
+    margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .finding-body { font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0; }
+
+  /* MODEL */
+  .model-section { background: var(--teal-dim); }
+  .model-section .section-label { color: var(--teal-light); }
+  .model-section h2 { color: var(--cream); }
+
+  .model-intro { max-width: 600px; margin-bottom: 0; color: rgba(245,240,232,0.6) !important; }
+
+  .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 48px; }
+
+  .code-block {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(42,143,163,0.3);
+    padding: 32px;
+    font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.85;
+    color: rgba(245,240,232,0.7); position: relative;
+  }
+
+  .code-block::before {
+    content: 'Python · scikit-learn';
+    position: absolute; top: -1px; left: -1px; right: -1px;
+    background: rgba(42,143,163,0.18);
+    border: 1px solid rgba(42,143,163,0.3);
+    padding: 8px 16px; font-size: 10px; letter-spacing: 0.12em;
+    color: var(--teal-light);
+  }
+
+  .code-block .code-body { margin-top: 32px; }
+
+  .kw  { color: #7dd3fc; }
+  .fn  { color: #86efac; }
+  .str { color: #fca5a5; }
+  .cm  { color: rgba(245,240,232,0.28); }
+  .num { color: #fde68a; }
+
+  .result-chips { display: flex; flex-direction: column; gap: 16px; }
+
+  .chip {
+    background: rgba(245,240,232,0.05);
+    border: 1px solid rgba(42,143,163,0.22);
+    padding: 22px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    transition: background 0.3s;
+  }
+
+  .chip:hover { background: rgba(42,143,163,0.1); }
+
+  .chip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--teal-light);
+  }
+
+  .chip-val { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--cream); }
+  .chip-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(245,240,232,0.35); margin-top: 2px; }
+
+  /* DASHBOARD */
+  .viz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+
+  .viz-card { background: white; border: 1px solid var(--rule); padding: 28px; transition: box-shadow 0.3s; }
+  .viz-card:hover { box-shadow: 0 8px 32px rgba(27,107,123,0.08); }
+
+  .viz-tag {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--teal); background: rgba(27,107,123,0.07);
+    display: inline-block; padding: 3px 8px; margin-bottom: 14px;
+  }
+
+  .viz-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .viz-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  .viz-preview { margin-top: 20px; border-top: 1px solid var(--rule); padding-top: 16px; }
+  .viz-preview svg { width: 100%; display: block; }
+
+  /* TECH STACK */
+  .stack-section { background: var(--warm); }
+
+  .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 48px; background: var(--rule); }
+
+  .stack-card { background: var(--cream); padding: 36px; transition: background 0.3s; }
+  .stack-card:hover { background: white; }
+
+  .stack-icon-wrap {
+    width: 48px; height: 48px; border-radius: 10px;
+    background: rgba(27,107,123,0.08);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; transition: background 0.3s;
+  }
+
+  .stack-card:hover .stack-icon-wrap { background: rgba(27,107,123,0.14); }
+
+  .stack-icon-wrap svg {
+    width: 24px; height: 24px; stroke: var(--teal); fill: none;
+    stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .stack-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+
+  .stack-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 12px;
+  }
+
+  .stack-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); padding: 48px 10%;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 24px;
+  }
+
+  .footer-left { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--cream); }
+
+  .footer-left span {
+    display: block; font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal-light); margin-bottom: 4px;
+  }
+
+  .footer-links { display: flex; gap: 32px; }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,240,232,0.4); text-decoration: none; transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--teal-light); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .chart-bar { transform-origin: bottom; animation: growBar 1s cubic-bezier(0.16,1,0.3,1) both; }
+  @keyframes growBar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .overview-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pipeline-steps { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .pipeline-steps::before { display: none; }
+    .findings-grid { grid-template-columns: 1fr; }
+    .model-grid { grid-template-columns: 1fr; }
+    .viz-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Decorative scatter / regression SVG -->
+  <svg class="hero-graphic" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+    <line x1="60" y1="620" x2="560" y2="620" stroke="#2a8fa3" stroke-width="1"/>
+    <line x1="60" y1="620" x2="60"  y2="60"  stroke="#2a8fa3" stroke-width="1"/>
+    <line x1="60" y1="500" x2="560" y2="500" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="60" y1="380" x2="560" y2="380" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="60" y1="260" x2="560" y2="260" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="60" y1="140" x2="560" y2="140" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="185" y1="60" x2="185" y2="620" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="310" y1="60" x2="310" y2="620" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="435" y1="60" x2="435" y2="620" stroke="#2a8fa3" stroke-width="0.4" stroke-dasharray="4 4"/>
+    <line x1="80"  y1="580" x2="540" y2="110" stroke="#2a8fa3" stroke-width="1.5"/>
+    <circle cx="95"  cy="570" r="4" fill="#2a8fa3"/>
+    <circle cx="120" cy="555" r="3" fill="#2a8fa3"/>
+    <circle cx="148" cy="540" r="4" fill="#2a8fa3"/>
+    <circle cx="170" cy="510" r="3" fill="#2a8fa3"/>
+    <circle cx="200" cy="490" r="5" fill="#2a8fa3"/>
+    <circle cx="225" cy="465" r="3" fill="#2a8fa3"/>
+    <circle cx="255" cy="455" r="4" fill="#2a8fa3"/>
+    <circle cx="278" cy="430" r="3" fill="#F5F0E8"/>
+    <circle cx="300" cy="400" r="5" fill="#2a8fa3"/>
+    <circle cx="328" cy="378" r="3" fill="#2a8fa3"/>
+    <circle cx="352" cy="355" r="4" fill="#2a8fa3"/>
+    <circle cx="375" cy="330" r="3" fill="#2a8fa3"/>
+    <circle cx="400" cy="310" r="5" fill="#F5F0E8"/>
+    <circle cx="425" cy="278" r="3" fill="#2a8fa3"/>
+    <circle cx="450" cy="255" r="4" fill="#2a8fa3"/>
+    <circle cx="478" cy="225" r="3" fill="#2a8fa3"/>
+    <circle cx="505" cy="200" r="5" fill="#2a8fa3"/>
+    <circle cx="528" cy="170" r="3" fill="#2a8fa3"/>
+    <circle cx="140" cy="490" r="3" fill="#2a8fa3" opacity="0.5"/>
+    <circle cx="230" cy="520" r="3" fill="#2a8fa3" opacity="0.5"/>
+    <circle cx="320" cy="340" r="3" fill="#2a8fa3" opacity="0.5"/>
+    <circle cx="410" cy="250" r="3" fill="#2a8fa3" opacity="0.5"/>
+    <circle cx="490" cy="310" r="3" fill="#2a8fa3" opacity="0.5"/>
+    <text x="480" y="148" font-family="monospace" font-size="12" fill="#2a8fa3">R2 = 0.957</text>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">
+      <span>Case Study</span>
+      <span>Oracle AI Platform</span>
+      <span>2024</span>
+    </p>
+    <h1 class="hero-title">Retail <em>Analytics</em></h1>
+    <p class="hero-subtitle">From raw data to predictive insight</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Dataset</span>
+        <span class="hero-meta-value">10,000 Orders</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Model Accuracy</span>
+        <span class="hero-meta-value">R squared = 0.957</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Platform</span>
+        <span class="hero-meta-value">Oracle AI Workbench + OAC</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Categories</span>
+        <span class="hero-meta-value">5 Product Lines</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</header>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-cell">
+      <span class="stat-num">$11.9<sup>M</sup></span>
+      <div class="stat-desc">Total Revenue 2024</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">~35<sup>%</sup></span>
+      <div class="stat-desc">Average Profit Margin</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">0.957</span>
+      <div class="stat-desc">Linear Model R Squared</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">3</span>
+      <div class="stat-desc">Customer Segments</div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section>
+  <div class="container">
+    <div class="overview-grid">
+      <div class="reveal">
+        <div class="section-label">Overview</div>
+        <h2>A full-stack analytics workflow on Oracle</h2>
+      </div>
+      <div class="reveal">
+        <p>This project demonstrates an end-to-end retail analytics pipeline built on Oracle AI Data Platform Workbench and Oracle Analytics Cloud. Starting from a raw 10,000-row transaction dataset, the workflow covers ingestion, exploratory analysis, feature engineering, predictive modelling, and interactive dashboarding.</p>
+        <p>The goal was to quantify what drives revenue performance and give business stakeholders a live, self-serve view of profitability, category performance, and customer segment behaviour within the Oracle ecosystem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="pipeline">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Methodology</div>
+      <h2>Five-stage pipeline</h2>
+    </div>
+    <div class="pipeline-steps">
+
+      <div class="pipeline-step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg>
+        </div>
+        <div class="step-num">01</div>
+        <div class="step-name">Ingest</div>
+        <div class="step-detail">CSV to DataFrame<br>10,000 rows, 13 cols<br>Zero nulls</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </div>
+        <div class="step-num">02</div>
+        <div class="step-name">Explore</div>
+        <div class="step-detail">df.info() + describe()<br>Distribution analysis<br>Schema validation</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </div>
+        <div class="step-num">03</div>
+        <div class="step-name">Engineer</div>
+        <div class="step-detail">Profit Margin feature<br>Date parsing<br>Type casting</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="step-num">04</div>
+        <div class="step-name">Model</div>
+        <div class="step-detail">Linear Regression<br>80/20 train-test split<br>R squared = 0.957</div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
+        </div>
+        <div class="step-num">05</div>
+        <div class="step-name">Visualise</div>
+        <div class="step-detail">Oracle Analytics Cloud<br>3 dashboard views<br>Self-serve reporting</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- KEY FINDINGS -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Key Findings</div>
+      <h2>What the data revealed</h2>
+    </div>
+    <div class="findings-grid">
+
+      <div class="finding-card reveal">
+        <div class="finding-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="10" width="4" height="10"/><rect x="9" y="6" width="4" height="14"/><rect x="16" y="2" width="4" height="18"/></svg>
+        </div>
+        <span class="finding-num">$2.43M</span>
+        <div class="finding-label">Electronics and Beauty Revenue</div>
+        <p class="finding-body">Both categories led total revenue at $2.43M each, with Clothing close behind at $2.33M. This indicates a well-balanced, diversified product portfolio with no over-reliance on any single category.</p>
+      </div>
+
+      <div class="finding-card accent reveal">
+        <div class="finding-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <span class="finding-num">-$31</span>
+        <div class="finding-label">Revenue Impact per 1% Discount</div>
+        <p class="finding-body">Each percentage point increase in discount rate reduces predicted revenue by approximately $31. This quantifies the real cost of discounting and gives the business a lever to optimise promotional strategy.</p>
+      </div>
+
+      <div class="finding-card reveal">
+        <div class="finding-icon">
+          <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+        </div>
+        <span class="finding-num">1/3</span>
+        <div class="finding-label">Each Customer Segment Share</div>
+        <p class="finding-body">Consumer (32.9%), Corporate (33.3%), and Home Office (33.8%) each hold virtually equal shares of profit margin. A remarkably balanced customer base with no single segment dominating performance.</p>
+      </div>
+
+      <div class="finding-card accent reveal">
+        <div class="finding-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span class="finding-num">Nov</span>
+        <div class="finding-label">Weakest Revenue Month</div>
+        <p class="finding-body">November 2024 was the softest month at approximately $920K, bucking typical retail seasonality. Revenue remained consistent throughout the year, ranging from $920K to $1.05M, showing a stable and resilient business.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODEL -->
+<section class="model-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Predictive Model</div>
+      <h2>Linear regression on revenue drivers</h2>
+      <p class="model-intro">Using scikit-learn, a linear regression model was trained on two features, Discount Rate and Cost, to predict Revenue. The model achieved an R squared of 0.957, explaining over 95% of revenue variance in the test set.</p>
+    </div>
+    <div class="model-grid">
+
+      <div class="code-block reveal">
+        <div class="code-body">
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split<br>
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression<br><br>
+features = df[[<span class="str">'Discount_Rate'</span>, <span class="str">'Cost'</span>]]<br>
+target   = df[<span class="str">'Revenue'</span>]<br><br>
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;features, target,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span><br>
+)<br><br>
+model = <span class="fn">LinearRegression</span>()<br>
+model.<span class="fn">fit</span>(X_train, y_train)<br><br>
+<span class="cm"># R squared : 0.9574</span><br>
+<span class="cm"># Coef  Discount_Rate : -31.07</span><br>
+<span class="cm"># Coef  Cost          : +1.47</span><br>
+<span class="cm"># Intercept           : 58.69</span>
+        </div>
+      </div>
+
+      <div class="result-chips reveal">
+        <div class="chip">
+          <div>
+            <div class="chip-label">Model R Squared</div>
+            <div class="chip-sub">Test set performance</div>
+          </div>
+          <div class="chip-val">0.957</div>
+        </div>
+        <div class="chip">
+          <div>
+            <div class="chip-label">Discount Rate Coefficient</div>
+            <div class="chip-sub">Revenue impact per unit</div>
+          </div>
+          <div class="chip-val">-31.07</div>
+        </div>
+        <div class="chip">
+          <div>
+            <div class="chip-label">Cost Coefficient</div>
+            <div class="chip-sub">Revenue impact per unit</div>
+          </div>
+          <div class="chip-val">+1.47</div>
+        </div>
+        <div class="chip">
+          <div>
+            <div class="chip-label">Train / Test Split</div>
+            <div class="chip-sub">Rows in each partition</div>
+          </div>
+          <div class="chip-val">80 / 20</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Oracle Analytics Cloud</div>
+      <h2>Three dashboard views</h2>
+      <p style="max-width:620px;">The processed dataset was published to Oracle Analytics Cloud, where three visualisations were built to surface different dimensions of performance for business stakeholders.</p>
+    </div>
+    <div class="viz-grid">
+
+      <div class="viz-card reveal">
+        <div class="viz-tag">Page 1</div>
+        <div class="viz-title">Revenue by Product Category</div>
+        <p class="viz-desc">Semicircle gauges comparing total revenue across Beauty, Clothing, Electronics, Home and Kitchen, and Sports.</p>
+        <div class="viz-preview">
+          <svg viewBox="0 0 220 88" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 72 A30 30 0 0 1 78 72" fill="none" stroke="#ddd9d2" stroke-width="8"/>
+            <path d="M18 72 A30 30 0 0 1 78 72" fill="none" stroke="#1B6B7B" stroke-width="8" stroke-dasharray="92 100" stroke-dashoffset="0"/>
+            <text x="48" y="84" text-anchor="middle" font-size="7" fill="#6B6560" font-family="'DM Mono',monospace">Beauty</text>
+            <path d="M64 72 A30 30 0 0 1 124 72" fill="none" stroke="#ddd9d2" stroke-width="8"/>
+            <path d="M64 72 A30 30 0 0 1 124 72" fill="none" stroke="#1B6B7B" stroke-width="8" stroke-dasharray="86 100"/>
+            <text x="94" y="84" text-anchor="middle" font-size="7" fill="#6B6560" font-family="'DM Mono',monospace">Clothing</text>
+            <path d="M110 72 A30 30 0 0 1 170 72" fill="none" stroke="#ddd9d2" stroke-width="8"/>
+            <path d="M110 72 A30 30 0 0 1 170 72" fill="none" stroke="#1B6B7B" stroke-width="8" stroke-dasharray="92 100"/>
+            <text x="140" y="84" text-anchor="middle" font-size="7" fill="#6B6560" font-family="'DM Mono',monospace">Elec.</text>
+            <path d="M156 72 A22 22 0 0 1 200 72" fill="none" stroke="#ddd9d2" stroke-width="6"/>
+            <path d="M156 72 A22 22 0 0 1 200 72" fill="none" stroke="#2a8fa3" stroke-width="6" stroke-dasharray="60 100"/>
+            <text x="178" y="84" text-anchor="middle" font-size="7" fill="#6B6560" font-family="'DM Mono',monospace">H+K</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="viz-card reveal">
+        <div class="viz-tag">Page 3</div>
+        <div class="viz-title">Revenue by Category and Segment</div>
+        <p class="viz-desc">Treemap showing revenue distribution across all five product categories broken down by Consumer, Corporate, and Home Office.</p>
+        <div class="viz-preview">
+          <svg viewBox="0 0 220 88" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2"   y="2"  width="86" height="52" fill="#1B6B7B" rx="1"/>
+            <rect x="2"   y="56" width="86" height="30" fill="#2a8fa3" rx="1"/>
+            <rect x="90"  y="2"  width="58" height="84" fill="#C85A00" rx="1"/>
+            <rect x="150" y="2"  width="68" height="38" fill="#0d3d47" rx="1"/>
+            <rect x="150" y="42" width="68" height="44" fill="#2a8fa3" opacity="0.5" rx="1"/>
+            <text x="45"  y="31" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.85)" font-family="'DM Mono',monospace">Consumer</text>
+            <text x="45"  y="75" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.85)" font-family="'DM Mono',monospace">Home Off.</text>
+            <text x="119" y="47" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.85)" font-family="'DM Mono',monospace">Corp.</text>
+            <text x="184" y="24" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.85)" font-family="'DM Mono',monospace">H.Office</text>
+            <text x="184" y="67" text-anchor="middle" font-size="7" fill="rgba(245,240,232,0.85)" font-family="'DM Mono',monospace">Cons.</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="viz-card reveal">
+        <div class="viz-tag">Page 5</div>
+        <div class="viz-title">Revenue by Month</div>
+        <p class="viz-desc">Monthly revenue bar chart for 2024, showing consistent performance around $1M per month with July and September as peak months.</p>
+        <div class="viz-preview">
+          <svg viewBox="0 0 220 88" xmlns="http://www.w3.org/2000/svg">
+            <line x1="8" y1="80" x2="212" y2="80" stroke="#c8c3bb" stroke-width="0.8"/>
+            <g class="chart-bar" style="animation-delay:0.05s"><rect x="10"  y="16" width="13" height="64" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.1s" ><rect x="26"  y="22" width="13" height="58" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.15s"><rect x="42"  y="19" width="13" height="61" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.2s" ><rect x="58"  y="20" width="13" height="60" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.25s"><rect x="74"  y="15" width="13" height="65" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.3s" ><rect x="90"  y="18" width="13" height="62" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.35s"><rect x="106" y="12" width="13" height="68" fill="#2a8fa3" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.4s" ><rect x="122" y="17" width="13" height="63" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.45s"><rect x="138" y="13" width="13" height="67" fill="#2a8fa3" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.5s" ><rect x="154" y="20" width="13" height="60" fill="#1B6B7B" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.55s"><rect x="170" y="28" width="13" height="52" fill="#C85A00" rx="1"/></g>
+            <g class="chart-bar" style="animation-delay:0.6s" ><rect x="186" y="18" width="13" height="62" fill="#1B6B7B" rx="1"/></g>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="stack-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Technology</div>
+      <h2>Stack and tools</h2>
+    </div>
+    <div class="stack-grid">
+
+      <div class="stack-card reveal">
+        <div class="stack-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+        </div>
+        <div class="stack-name">Oracle AI Data Platform Workbench</div>
+        <div class="stack-role">Notebook Environment</div>
+        <p class="stack-desc">Jupyter-compatible notebook interface used for data ingestion, EDA, feature engineering, and model training within the Oracle cloud ecosystem.</p>
+      </div>
+
+      <div class="stack-card reveal">
+        <div class="stack-icon-wrap">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="stack-name">pandas + scikit-learn</div>
+        <div class="stack-role">Data and ML Libraries</div>
+        <p class="stack-desc">pandas for data loading, profiling, and transformation. scikit-learn for train/test splitting and fitting a LinearRegression model on revenue drivers.</p>
+      </div>
+
+      <div class="stack-card reveal">
+        <div class="stack-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+        </div>
+        <div class="stack-name">Oracle Analytics Cloud</div>
+        <div class="stack-role">Dashboarding and BI</div>
+        <p class="stack-desc">The processed CSV was published to OAC to create three interactive visualisations, enabling self-serve exploration by non-technical business stakeholders.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <span>Retail Analytics Case Study</span>
+    Oracle AI Data Platform · 2024
+  </div>
+  <nav class="footer-links">
+    <a href="#">Notebook</a>
+    <a href="#">Dataset</a>
+    <a href="#">Dashboard</a>
+    <a href="#">README</a>
+  </nav>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .pipeline-step').forEach(el => io.observe(el));
+  document.querySelectorAll('.pipeline-step').forEach((el, i) => { el.style.transitionDelay = `${i * 0.1}s`; });
+</script>
+</body>
+</html>
