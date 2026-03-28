@@ -158,10 +158,13 @@
       margin-bottom: 0.2rem;
     }
     .hero-intro {
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 300;
+  font-style: italic;
   color: var(--ink);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.2rem;
+  line-height: 1;
 }
     .typed-name-wrap {
       min-height: clamp(5rem, 9vw, 7.25rem);
@@ -247,18 +250,18 @@
     }
     .hero-col:not(:last-child) { padding-right: 2.5rem; }
     .col-label {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-bottom: 0.55rem;
-    }
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);   
+  margin-bottom: 0.6rem;
+}
     .col-value {
-      font-size: 0.92rem;
-      color: var(--mid);
-      line-height: 1.8;
-    }
+  font-size: 1.05rem;   
+  color: var(--mid);
+  line-height: 1.8;
+}
     .col-value.big {
       font-family: var(--serif);
       font-size: clamp(1.4rem, 2.8vw, 2rem);
@@ -354,13 +357,13 @@
       margin-bottom: 2.5rem;
     }
     .skill-row { margin-bottom: 1.25rem; }
-    .skill-label {
+  .skill-label {
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--faint);
-  margin-bottom: 0.75rem;
+  color: var(--ink); 
+  margin-bottom: 0.8rem;
 }
     .chips {
       display: flex;
@@ -368,12 +371,12 @@
       gap: 0.4rem;
     }
     .chip {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   letter-spacing: 0.03em;
   color: var(--mid);
   border: 1px solid var(--rule);
   border-radius: 999px;
-  padding: 0.45rem 1rem;
+  padding: 0.5rem 1.05rem;
   transition: border-color .2s, color .2s;
   background: rgba(253,246,238,0.4);
 }
@@ -396,13 +399,13 @@
       gap: 3.5rem;
     }
     .exp-company {
-      font-family: var(--serif);
-      font-size: 1.15rem;
-      font-weight: 300;
-      font-style: italic;
-      margin-bottom: 0.45rem;
-      color: var(--ink);
-    }
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 500;   
+  font-style: normal;
+  margin-bottom: 0.45rem;
+  color: var(--ink);
+}
     .exp-meta {
       font-family: var(--mono);
       font-size: 0.58rem;
