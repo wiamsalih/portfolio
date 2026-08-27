@@ -3,1093 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wiam Salih</title>
+  <meta name="description" content="Wiam Salih — AI product builder and human-centered technologist at Cornell Tech." />
+  <title>Wiam Salih — AI Product Builder</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Figtree:wght@300;400;500;600&family=Martian+Mono:wght@300;400&display=swap" rel="stylesheet" />
-
   <style>
     :root {
-      --s0: #fdf6ee;
-      --s1: #fce8d5;
-      --s2: #f9d0b0;
-      --s3: #f4b48a;
-      --s4: #e8937a;
-      --s5: #d4756a;
-      --s6: #b85e6a;
-      --s7: #8e4a6e;
-
-      --ink: #1a1310;
-      --mid: #4a3028;
-      --faint: #8a6858;
-      --rule: rgba(180,130,110,0.22);
-      --card: rgba(253,246,238,0.52);
-
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Figtree', system-ui, sans-serif;
-      --mono: 'Martian Mono', monospace;
-
-      --max: 1200px;
-      --pad: clamp(1.25rem, 4vw, 3rem);
+      --s0:#fdf6ee; --s1:#fce8d5; --s2:#f9d0b0; --s3:#f4b48a;
+      --s4:#e8937a; --s5:#d4756a; --s6:#b85e6a; --s7:#8e4a6e;
+      --ink:#1a1310; --mid:#4a3028; --faint:#8a6858;
+      --rule:rgba(180,130,110,.22); --card:rgba(253,246,238,.56);
+      --serif:'Cormorant Garamond',Georgia,serif;
+      --sans:'Figtree',system-ui,sans-serif; --mono:'Martian Mono',monospace;
+      --max:1200px; --pad:clamp(1.25rem,4vw,3rem);
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--sans);
-      font-weight: 300;
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);font-weight:300;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;
       background:
-        radial-gradient(ellipse 120% 60% at 80% 10%, rgba(248,190,130,0.55) 0%, transparent 60%),
-        radial-gradient(ellipse 80% 50% at 15% 30%, rgba(232,147,122,0.35) 0%, transparent 55%),
-        radial-gradient(ellipse 100% 70% at 50% 100%, rgba(142,74,110,0.28) 0%, transparent 60%),
-        radial-gradient(ellipse 140% 80% at 100% 80%, rgba(212,117,106,0.3) 0%, transparent 55%),
-        linear-gradient(180deg, #fdf6ee 0%, #fce8d5 30%, #f9d4b5 60%, #f2c4a0 80%, #e8b090 100%);
-      background-attachment: fixed;
-      min-height: 100vh;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9998;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      opacity: 0.5;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      transition: background .4s, border-color .4s, backdrop-filter .4s;
-      border-bottom: 1px solid transparent;
-    }
-    nav.scrolled {
-      background: rgba(253,246,238,0.82);
-      backdrop-filter: blur(16px) saturate(1.4);
-      border-color: var(--rule);
-    }
-    .nav-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 var(--pad);
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; color: var(--ink); }
-    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
-    .nav-links { list-style: none; display: flex; gap: 2rem; }
-    .nav-links a {
-      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--mid); transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--ink); }
-    .nav-cta {
-      font-size: 0.68rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
-      border: 1px solid rgba(122,96,85,0.4); padding: 0.5rem 1rem; border-radius: 999px;
-      color: var(--mid); transition: border-color .2s, color .2s, background .2s;
-    }
-    .nav-cta:hover { border-color: var(--ink); color: var(--ink); background: rgba(26,19,16,0.04); }
-
-    /* ── HERO ── */
-    .hero-top {
-      padding-top: 68px;
-      border-bottom: 1px solid var(--rule);
-      position: relative;
-      isolation: isolate;
-    }
-    .hero-top-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: clamp(4rem, 10vh, 7rem) var(--pad) clamp(2rem, 4vh, 3.5rem);
-    }
-    .hero-copy {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 260px;
-      gap: clamp(2rem, 5vw, 5rem);
-      align-items: center;
-    }
-    .hero-text { max-width: 760px; min-width: 0; }
-    .hero-eyebrow { font-family: var(--sans); font-size: 0.82rem; font-weight: 400; letter-spacing: 0; color: var(--ink); margin-bottom: 0.2rem; }
-    .hero-intro { font-family: var(--serif); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 300; font-style: italic; color: var(--ink); margin-bottom: 0.2rem; line-height: 1; }
-    .typed-name-wrap { min-height: clamp(5rem, 9vw, 7.25rem); display: flex; align-items: flex-end; margin-bottom: 1rem; }
-    .typed-name { font-family: var(--serif); font-size: clamp(3.2rem, 6.7vw, 5.2rem); font-weight: 300; font-style: italic; line-height: 0.98; letter-spacing: -0.03em; white-space: nowrap; color: var(--ink); }
-    .cursor { display: inline-block; width: 2px; height: 0.9em; margin-left: 6px; background: var(--ink); vertical-align: -0.08em; animation: blinkCursor 1s steps(1) infinite; }
-    @keyframes blinkCursor { 50% { opacity: 0; } }
-    .hero-subcopy { max-width: 34ch; margin-top: 0.4rem; font-size: 1.05rem; line-height: 1.85; color: var(--mid); }
-    .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
-    .hero-image-wrap { display: flex; justify-content: flex-end; align-items: center; }
-    .hero-image {
-      width: clamp(180px, 22vw, 250px); height: clamp(180px, 22vw, 250px);
-      border-radius: 50%; overflow: hidden; border: 1px solid var(--rule);
-      background: rgba(253,246,238,0.55); box-shadow: 0 18px 40px rgba(67,35,25,0.08); flex-shrink: 0;
-    }
-    .hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
-
-    .hero-bottom { border-bottom: 1px solid var(--rule); }
-    .hero-cols { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); display: grid; grid-template-columns: 1.15fr 0.85fr 0.85fr; }
-    .hero-col { padding: 2.75rem 0; display: flex; flex-direction: column; gap: 2rem; justify-content: space-between; }
-    .hero-col + .hero-col { border-left: 1px solid var(--rule); padding-left: 2.5rem; }
-    .hero-col:not(:last-child) { padding-right: 2.5rem; }
-    .col-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.6rem; }
-    .col-value { font-size: 1.05rem; color: var(--mid); line-height: 1.8; }
-    .col-value.big { font-family: var(--serif); font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 300; font-style: italic; line-height: 1.45; letter-spacing: -0.02em; color: var(--ink); }
-
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex; align-items: center;
-      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 0.78rem 1.22rem; border-radius: 999px; border: 1px solid transparent;
-      transition: background .2s, color .2s, border-color .2s, transform .18s; cursor: pointer;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-dark { background: var(--ink); color: var(--s0); }
-    .btn-dark:hover { background: #2f1e18; }
-    .btn-ghost { border-color: rgba(122,96,85,0.35); color: var(--mid); background: rgba(253,246,238,0.35); }
-    .btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
-
-    /* ── SECTION HEADER ── */
-    .s-hdr { border-bottom: 1px solid var(--rule); }
-    .s-hdr-inner { max-width: var(--max); margin: 0 auto; padding: 1.6rem var(--pad); display: flex; align-items: baseline; gap: 1.5rem; }
-    .s-num { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--faint); flex-shrink: 0; }
-    .s-title { font-family: var(--serif); font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 300; font-style: italic; letter-spacing: -0.03em; line-height: 1; color: var(--ink); }
-
-    /* ── ABOUT ── */
-    .about-body { border-bottom: 1px solid var(--rule); }
-    .about-body-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); display: grid; grid-template-columns: 1fr 1fr; }
-    .about-left { padding: 4.5rem 3rem 4.5rem 0; border-right: 1px solid var(--rule); }
-    .about-statement { font-family: var(--serif); font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 300; font-style: italic; line-height: 1.5; letter-spacing: -0.02em; color: var(--ink); }
-    .about-right { padding: 4.5rem 0 4.5rem 3rem; }
-    .about-para { font-size: 0.92rem; color: var(--mid); line-height: 2; margin-bottom: 2.5rem; }
-    .skill-row { margin-bottom: 1.25rem; }
-    .skill-label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.8rem; }
-    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .chip { font-size: 0.9rem; letter-spacing: 0.03em; color: var(--mid); border: 1px solid var(--rule); border-radius: 999px; padding: 0.5rem 1.05rem; transition: border-color .2s, color .2s; background: rgba(253,246,238,0.4); }
-    .chip:hover { border-color: rgba(122,96,85,0.6); color: var(--ink); }
-    .chip.hi { border-color: rgba(122,96,85,0.5); color: var(--ink); }
-
-    /* ── EXPERIENCE ── */
-    .exp-list { border-bottom: 1px solid var(--rule); }
-    .exp-item { border-bottom: 1px solid var(--rule); transition: background .25s; }
-    .exp-item:last-child { border-bottom: none; }
-    .exp-item:hover { background: rgba(253,246,238,0.5); }
-    .exp-item-inner { max-width: var(--max); margin: 0 auto; padding: 3rem var(--pad); display: grid; grid-template-columns: 230px 1fr; gap: 3.5rem; }
-    .exp-company { font-family: var(--serif); font-size: 1.25rem; font-weight: 500; font-style: normal; margin-bottom: 0.45rem; color: var(--ink); }
-    .exp-meta { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; color: var(--faint); line-height: 2; }
-    .exp-badge { display: inline-block; margin-top: 0.75rem; font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); border: 1px solid var(--rule); border-radius: 999px; padding: 0.25rem 0.65rem; }
-    .exp-role { font-size: 0.98rem; font-weight: 500; color: var(--ink); margin-bottom: 1.5rem; letter-spacing: 0.01em; }
-    .exp-bullets { list-style: none; counter-reset: abc; }
-    .exp-bullets li { display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.75rem; padding: 0.75rem 0; border-top: 1px solid var(--rule); font-size: 0.86rem; color: var(--mid); line-height: 1.8; counter-increment: abc; }
-    .exp-bullets li::before { content: counter(abc, upper-alpha); font-family: var(--mono); font-size: 0.56rem; color: var(--faint); padding-top: 0.35rem; letter-spacing: 0.05em; }
-
-    /* ── PROJECTS ── */
-    .project-list { border-bottom: 1px solid var(--rule); max-width: var(--max); margin: 0 auto; padding: 1rem var(--pad) 2.2rem; display: grid; gap: 1rem; }
-    .project-row { display: block; border: 1px solid var(--rule); border-radius: 28px; background: var(--card); backdrop-filter: blur(10px); transition: transform .25s, border-color .25s, background .25s, box-shadow .25s; overflow: hidden; }
-    .project-row:hover { transform: translateY(-4px); border-color: rgba(122,96,85,0.45); background: rgba(253,246,238,0.72); box-shadow: 0 18px 45px rgba(67,35,25,0.08); }
-    .project-row:hover .pr-arrow { transform: translate(4px,-4px); color: var(--ink); }
-    .project-row-inner { padding: 1.8rem 1.9rem 2rem; display: grid; grid-template-columns: 78px 1fr auto; align-items: start; gap: 1.4rem; }
-    .pr-num { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); padding-top: 0.45rem; }
-    .pr-topline { display: flex; align-items: center; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 0.55rem; }
-    .pr-title { font-family: var(--serif); font-size: clamp(1.5rem, 2.9vw, 2.1rem); font-weight: 300; font-style: italic; letter-spacing: -0.02em; color: var(--ink); }
-    .pr-badge { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); border: 1px solid var(--rule); border-radius: 999px; padding: 0.3rem 0.65rem; background: rgba(255,255,255,0.24); }
-    .pr-desc { font-size: 1rem; color: var(--mid); line-height: 1.9; max-width: 68ch; margin-bottom: 1rem; }
-    .pr-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
-    .pr-detail { border: 1px solid rgba(180,130,110,0.16); border-radius: 18px; padding: 0.95rem 1rem; background: rgba(253,246,238,0.5); }
-    .pr-detail-label { font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.45rem; }
-    .pr-detail-value { font-size: 0.88rem; line-height: 1.7; color: var(--ink); }
-    .pr-highlights { list-style: none; display: grid; gap: 0.55rem; margin-bottom: 1rem; }
-    .pr-highlights li { display: grid; grid-template-columns: 1rem 1fr; gap: 0.65rem; font-size: 0.92rem; color: var(--mid); line-height: 1.75; }
-    .pr-highlights li::before { content: "•"; color: var(--ink); }
-    .pr-tags { display: flex; gap: 0.45rem; flex-wrap: wrap; }
-    .pr-tag { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.08em; color: var(--faint); border: 1px solid var(--rule); border-radius: 999px; padding: 0.22rem 0.58rem; background: rgba(255,255,255,0.18); }
-    .pr-arrow { font-size: 1.2rem; color: var(--faint); flex-shrink: 0; transition: transform .25s, color .2s; padding-top: 0.45rem; }
-
-    /* ── RESEARCH ── */
-    .research-body { border-bottom: 1px solid var(--rule); }
-    .research-body-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 4rem var(--pad) 5rem;
-    }
-
-    /* Paper header: title + status pill */
-    .research-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--rule);
-      flex-wrap: wrap;
-    }
-    .research-paper-title {
-      font-family: var(--serif);
-      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
-      font-weight: 300;
-      font-style: italic;
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-      color: var(--ink);
-      margin-bottom: 1.25rem;
-      max-width: 62ch;
-    }
-    .research-meta {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 2rem;
-      row-gap: 0.25rem;
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.08em;
-      color: var(--faint);
-      line-height: 2;
-    }
-    .research-meta strong { color: var(--mid); font-weight: 400; }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mid);
-      border: 1px solid var(--rule);
-      border-radius: 999px;
-      padding: 0.5rem 1rem;
-      background: rgba(253,246,238,0.55);
-      flex-shrink: 0;
-      white-space: nowrap;
-      height: fit-content;
-    }
-    .sdot-sm {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #c97a50;
-      box-shadow: 0 0 6px rgba(201,122,80,0.5);
-      display: inline-block;
-      flex-shrink: 0;
-      animation: blink 2.5s ease-in-out infinite;
-    }
-
-    /* Abstract */
-    .research-abstract {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 2rem;
-      padding-bottom: 3rem;
-      margin-bottom: 3rem;
-      border-bottom: 1px solid var(--rule);
-    }
-    .research-abstract-label {
-      font-family: var(--mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--faint);
-      padding-top: 0.3rem;
-    }
-    .research-abstract p {
-      font-size: 0.95rem;
-      color: var(--mid);
-      line-height: 2;
-    }
-
-    /* Research question cards */
-    .research-cols {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1px solid var(--rule);
-      border-radius: 22px;
-      overflow: hidden;
-      background: var(--card);
-      backdrop-filter: blur(12px);
-      margin-bottom: 3rem;
-    }
-    .research-card {
-      padding: 2rem 1.8rem;
-      border-right: 1px solid var(--rule);
-      transition: background .2s;
-    }
-    .research-card:last-child { border-right: none; }
-    .research-card:hover { background: rgba(253,246,238,0.6); }
-
-    .rc-label {
-      font-family: var(--mono);
-      font-size: 0.52rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-bottom: 0.85rem;
-    }
-    .rc-title {
-      font-family: var(--serif);
-      font-size: 1.2rem;
-      font-weight: 300;
-      font-style: italic;
-      letter-spacing: -0.02em;
-      line-height: 1.45;
-      color: var(--ink);
-      margin-bottom: 0.9rem;
-    }
-    .rc-body { font-size: 0.84rem; color: var(--mid); line-height: 1.9; }
-
-    /* Findings */
-    .findings-block {
-      margin-bottom: 3rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--rule);
-    }
-    .findings-label {
-      font-family: var(--mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-bottom: 1.5rem;
-    }
-    .research-finding-bar {
-      display: grid;
-      grid-template-columns: 2.5rem 1fr;
-      gap: 1.25rem;
-      padding: 1.25rem 0;
-      border-top: 1px solid var(--rule);
-      align-items: start;
-    }
-    .research-finding-bar:last-child { border-bottom: 1px solid var(--rule); }
-    .rfb-num {
-      font-family: var(--mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.1em;
-      color: var(--faint);
-      padding-top: 0.2rem;
-    }
-    .rfb-text { font-size: 0.88rem; color: var(--mid); line-height: 1.9; }
-    .rfb-text strong { color: var(--ink); font-weight: 500; }
-    .rfb-text em { font-style: italic; }
-
-    /* Keywords */
-    .research-kw {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-bottom: 3rem;
-    }
-    .research-kw span {
-      font-size: 0.78rem;
-      color: var(--mid);
-      border: 1px solid var(--rule);
-      border-radius: 999px;
-      padding: 0.42rem 0.95rem;
-      background: rgba(253,246,238,0.4);
-      letter-spacing: 0.02em;
-      transition: border-color .2s, color .2s;
-    }
-    .research-kw span:hover { border-color: rgba(122,96,85,0.5); color: var(--ink); }
-
-    /* PDF row */
-    .pdf-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      padding: 2rem 2.25rem;
-      border: 1px solid var(--rule);
-      border-radius: 20px;
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      flex-wrap: wrap;
-    }
-    .pdf-label {
-      font-family: var(--mono);
-      font-size: 0.52rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-bottom: 0.4rem;
-    }
-    .pdf-row-text p { font-size: 0.85rem; color: var(--mid); line-height: 1.75; }
-    .pdf-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.78rem 1.3rem;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      background: var(--ink);
-      color: var(--s0);
-      transition: background .2s, transform .18s;
-      cursor: pointer;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-    .pdf-btn:hover { background: #2f1e18; transform: translateY(-1px); }
-    .pdf-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
-
-    /* ── CONTACT ── */
-    .contact-body { border-bottom: 1px solid var(--rule); }
-    .contact-body-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); display: grid; grid-template-columns: 1fr 0.5fr; }
-    .contact-left { padding: 4.5rem 3rem 4.5rem 0; border-right: 1px solid var(--rule); }
-    .contact-h { font-family: var(--serif); font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; font-style: italic; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); margin-bottom: 1.25rem; }
-    .contact-sub { font-size: 0.88rem; color: var(--mid); line-height: 1.95; margin-bottom: 2.5rem; max-width: 42ch; }
-    .clinks { display: grid; }
-    .clink { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-top: 1px solid var(--rule); transition: opacity .2s; }
-    .clink:last-child { border-bottom: 1px solid var(--rule); }
-    .clink:hover { opacity: 0.55; }
-    .cl-label { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--faint); display: block; margin-bottom: 0.12rem; }
-    .cl-value { font-size: 0.86rem; color: var(--ink); }
-    .cl-arrow { font-size: 0.8rem; color: var(--faint); }
-    .contact-right { padding: 4.5rem 0 4.5rem 3rem; }
-    .st-label, .roles-label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.85rem; }
-    .st-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--ink); margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
-    .sdot { width: 6px; height: 6px; border-radius: 50%; background: #c97a50; box-shadow: 0 0 8px rgba(201,122,80,0.5); animation: blink 2.5s ease-in-out infinite; }
-    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-    .role-item { font-size: 0.82rem; color: var(--mid); padding: 0.65rem 0; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; transition: color .2s; }
-    .role-item:first-of-type { border-top: 1px solid var(--rule); }
-    .role-item:hover { color: var(--ink); }
-    .role-arr { font-size: 0.7rem; color: var(--faint); }
-
-    /* ── FOOTER ── */
-    footer { border-top: 1px solid var(--rule); }
-    .footer-inner { max-width: var(--max); margin: 0 auto; padding: 1.5rem var(--pad); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .footer-copy, .footer-links a { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.1em; color: var(--faint); }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a { text-transform: uppercase; transition: color .2s; }
-    .footer-links a:hover { color: var(--ink); }
-
-    /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1080px) {
-      .hero-copy { grid-template-columns: 1fr 220px; }
-      .pr-detail-grid { grid-template-columns: 1fr; }
-      .research-abstract { grid-template-columns: 120px 1fr; }
-    }
-    @media (max-width: 960px) {
-      .hero-copy { grid-template-columns: 1fr; }
-      .hero-text { order: 2; }
-      .hero-image-wrap { order: 1; justify-content: flex-start; }
-      .hero-cols { grid-template-columns: 1fr 1fr; }
-      .hero-col:last-child { display: none; }
-      .about-body-inner, .contact-body-inner { grid-template-columns: 1fr; }
-      .about-left, .contact-left { border-right: none; border-bottom: 1px solid var(--rule); padding-right: 0; padding-bottom: 3rem; }
-      .about-right, .contact-right { padding-left: 0; }
-      .exp-item-inner { grid-template-columns: 1fr; gap: 1.25rem; }
-      .project-row-inner { grid-template-columns: 1fr; }
-      .pr-arrow { display: none; }
-      .research-cols { grid-template-columns: 1fr; }
-      .research-card { border-right: none; border-bottom: 1px solid var(--rule); }
-      .research-card:last-child { border-bottom: none; }
-      .research-abstract { grid-template-columns: 1fr; gap: 0.75rem; }
-    }
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .hero-top-inner { padding-top: 3rem; }
-      .hero-cols { grid-template-columns: 1fr; }
-      .hero-col + .hero-col { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; }
-      .typed-name { font-size: clamp(2.6rem, 15vw, 4rem); white-space: normal; }
-      .hero-subcopy { font-size: 0.96rem; }
-      .project-list { padding-inline: 1rem; }
-      .project-row-inner { padding: 1.4rem; }
-      .pr-num { display: none; }
-      .pr-title { font-size: 1.55rem; }
-      .pr-desc, .pr-highlights li, .pr-detail-value { font-size: 0.92rem; }
-      .research-body-inner { padding: 2.5rem var(--pad) 3rem; }
-      .pdf-row { flex-direction: column; align-items: flex-start; }
-    }
+      radial-gradient(ellipse 120% 60% at 80% 10%,rgba(248,190,130,.55) 0%,transparent 60%),
+      radial-gradient(ellipse 80% 50% at 15% 30%,rgba(232,147,122,.35) 0%,transparent 55%),
+      radial-gradient(ellipse 100% 70% at 50% 100%,rgba(142,74,110,.28) 0%,transparent 60%),
+      linear-gradient(180deg,#fdf6ee 0%,#fce8d5 30%,#f9d4b5 60%,#f2c4a0 80%,#e8b090 100%);
+      background-attachment:fixed;min-height:100vh}
+    body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.35;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E")}
+    a{color:inherit;text-decoration:none}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:.4s;border-bottom:1px solid transparent}
+    nav.scrolled{background:rgba(253,246,238,.84);backdrop-filter:blur(16px) saturate(1.4);border-color:var(--rule)}
+    .nav-inner{max-width:var(--max);margin:auto;padding:0 var(--pad);height:68px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-size:.85rem;font-weight:500;letter-spacing:.04em}
+    .nav-right{display:flex;align-items:center;gap:1.4rem}.nav-links{list-style:none;display:flex;gap:1.25rem}
+    .nav-links a,.nav-cta{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase}
+    .nav-links a{color:var(--mid);transition:color .2s}.nav-links a:hover{color:var(--ink)}
+    .nav-cta{border:1px solid rgba(122,96,85,.4);padding:.5rem 1rem;border-radius:999px;color:var(--mid)}
+    .nav-cta:hover{border-color:var(--ink);color:var(--ink)}
+    .hero-top{padding-top:68px;border-bottom:1px solid var(--rule);position:relative}
+    .hero-top-inner{max-width:var(--max);margin:auto;padding:clamp(4rem,10vh,7rem) var(--pad) clamp(2rem,4vh,3.5rem)}
+    .hero-copy{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:clamp(2rem,5vw,5rem);align-items:center}
+    .hero-text{max-width:780px}.hero-intro{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3rem);font-style:italic;line-height:1}
+    .typed-name-wrap{min-height:clamp(5rem,9vw,7.25rem);display:flex;align-items:flex-end;margin-bottom:1rem}
+    .typed-name{font-family:var(--serif);font-size:clamp(3.2rem,6.7vw,5.2rem);font-weight:300;font-style:italic;line-height:.98;letter-spacing:-.03em}
+    .cursor{display:inline-block;width:2px;height:.9em;margin-left:6px;background:var(--ink);vertical-align:-.08em;animation:blinkCursor 1s steps(1) infinite}
+    @keyframes blinkCursor{50%{opacity:0}}
+    .hero-kicker{font-family:var(--mono);font-size:.61rem;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);margin-bottom:.75rem}
+    .hero-subcopy{max-width:62ch;font-size:1.08rem;line-height:1.8;color:var(--mid)}
+    .hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:2rem}
+    .btn{display:inline-flex;align-items:center;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.78rem 1.22rem;border-radius:999px;border:1px solid transparent;transition:.2s}
+    .btn:hover{transform:translateY(-1px)}.btn-dark{background:var(--ink);color:var(--s0)}.btn-ghost{border-color:rgba(122,96,85,.35);color:var(--mid);background:rgba(253,246,238,.35)}
+    .hero-image-wrap{display:flex;justify-content:flex-end}.hero-image{width:clamp(180px,22vw,250px);height:clamp(180px,22vw,250px);border-radius:50%;overflow:hidden;border:1px solid var(--rule);background:rgba(253,246,238,.55);box-shadow:0 18px 40px rgba(67,35,25,.08)}
+    .hero-image img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero-bottom{border-bottom:1px solid var(--rule)}.hero-cols{max-width:var(--max);margin:auto;padding:0 var(--pad);display:grid;grid-template-columns:1.15fr .85fr .85fr}
+    .hero-col{padding:2.75rem 0;display:flex;flex-direction:column;gap:2rem}.hero-col+.hero-col{border-left:1px solid var(--rule);padding-left:2.5rem}.hero-col:not(:last-child){padding-right:2.5rem}
+    .col-label,.skill-label,.st-label,.roles-label{font-family:var(--mono);font-size:.61rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:.6rem}
+    .col-value{font-size:1rem;color:var(--mid);line-height:1.75}.col-value.big{font-family:var(--serif);font-size:clamp(1.4rem,2.8vw,2rem);font-style:italic;line-height:1.45;color:var(--ink)}
+    .s-hdr{border-bottom:1px solid var(--rule)}.s-hdr-inner{max-width:var(--max);margin:auto;padding:1.6rem var(--pad);display:flex;align-items:baseline;gap:1.5rem}
+    .s-num{font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}.s-title{font-family:var(--serif);font-size:clamp(1.75rem,4vw,3rem);font-weight:300;font-style:italic;letter-spacing:-.03em}
+    .about-body,.exp-body,.research-body,.contact-body{border-bottom:1px solid var(--rule)}
+    .about-body-inner{max-width:var(--max);margin:auto;padding:0 var(--pad);display:grid;grid-template-columns:1fr 1fr}.about-left{padding:4.5rem 3rem 4.5rem 0;border-right:1px solid var(--rule)}
+    .about-statement{font-family:var(--serif);font-size:clamp(1.45rem,2.6vw,2rem);font-style:italic;line-height:1.5;color:var(--ink)}
+    .about-right{padding:4.5rem 0 4.5rem 3rem}.skill-row{margin-bottom:2rem}.skill-row:last-child{margin-bottom:0}.chips{display:flex;flex-wrap:wrap;gap:.45rem}.chip{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;color:var(--mid);border:1px solid var(--rule);border-radius:999px;padding:.3rem .65rem;background:rgba(255,255,255,.16)}.chip.hi{border-color:rgba(142,74,110,.35)}
+    .exp-list{max-width:var(--max);margin:auto;padding:1rem var(--pad) 2rem}.exp-item{border:1px solid var(--rule);border-radius:24px;background:var(--card);margin-bottom:1rem;overflow:hidden}.exp-item-inner{padding:1.65rem 1.8rem;display:grid;grid-template-columns:220px 1fr;gap:2rem}
+    .exp-company{font-family:var(--serif);font-size:1.55rem;font-style:italic}.exp-meta{font-family:var(--mono);font-size:.53rem;line-height:1.7;color:var(--faint);margin-top:.35rem}.exp-badge{display:inline-block;margin-top:.65rem;font-family:var(--mono);font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--rule);border-radius:999px;padding:.28rem .55rem;color:var(--faint)}
+    .exp-role{font-size:1rem;font-weight:500;margin-bottom:.7rem}.exp-bullets,.pr-highlights{list-style:none;display:grid;gap:.5rem}.exp-bullets li,.pr-highlights li{font-size:.88rem;color:var(--mid);line-height:1.7;padding-left:1rem;position:relative}.exp-bullets li::before,.pr-highlights li::before{content:"•";position:absolute;left:0;color:var(--ink)}
+    .project-list{max-width:var(--max);margin:auto;padding:1rem var(--pad) 2.2rem;display:grid;gap:1rem}.project-row{display:block;border:1px solid var(--rule);border-radius:28px;background:var(--card);backdrop-filter:blur(10px);transition:.25s;overflow:hidden}.project-row:hover{transform:translateY(-4px);box-shadow:0 18px 45px rgba(67,35,25,.08)}
+    .project-row-inner{padding:1.8rem 1.9rem 2rem;display:grid;grid-template-columns:65px 1fr auto;gap:1.4rem}.pr-num{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--faint);padding-top:.45rem}.pr-topline{display:flex;align-items:center;flex-wrap:wrap;gap:.65rem;margin-bottom:.55rem}.pr-title{font-family:var(--serif);font-size:clamp(1.5rem,2.9vw,2.1rem);font-style:italic;font-weight:300}.pr-badge{font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);border:1px solid var(--rule);border-radius:999px;padding:.3rem .65rem}
+    .pr-desc{font-size:1rem;color:var(--mid);line-height:1.8;max-width:68ch;margin-bottom:1rem}.pr-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem;margin-bottom:1rem}.pr-detail{border:1px solid rgba(180,130,110,.16);border-radius:18px;padding:.95rem 1rem;background:rgba(253,246,238,.5)}.pr-detail-label{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:.45rem}.pr-detail-value{font-size:.88rem;line-height:1.7;color:var(--ink)}
+    .pr-highlights{margin-bottom:1rem}.pr-tags{display:flex;gap:.45rem;flex-wrap:wrap}.pr-tag{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;color:var(--faint);border:1px solid var(--rule);border-radius:999px;padding:.22rem .58rem}.pr-arrow{font-size:1.2rem;color:var(--faint)}
+    .research-body-inner{max-width:var(--max);margin:auto;padding:4rem var(--pad) 5rem}.research-top{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--rule);flex-wrap:wrap}.research-paper-title{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:300;font-style:italic;max-width:850px}.research-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;color:var(--faint)}.status-pill{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule);border-radius:999px;padding:.4rem .7rem;color:var(--mid)}.sdot-sm{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--s6);margin-right:.4rem}
+    .research-abstract{display:grid;grid-template-columns:120px 1fr;gap:2rem;padding-bottom:3rem;border-bottom:1px solid var(--rule)}.research-abstract-label,.findings-label{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}.research-abstract p{font-size:1rem;line-height:1.9;color:var(--mid);max-width:80ch}
+    .research-cols{display:grid;grid-template-columns:repeat(3,1fr);margin-top:3rem;border:1px solid var(--rule);border-radius:22px;overflow:hidden}.research-card{padding:1.5rem;border-right:1px solid var(--rule)}.research-card:last-child{border-right:0}.rc-label{font-family:var(--mono);font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:.7rem}.rc-title{font-family:var(--serif);font-size:1.45rem;font-style:italic;line-height:1.2;margin-bottom:.7rem}.rc-body{font-size:.85rem;line-height:1.75;color:var(--mid)}
+    .findings-block{margin-top:3rem}.research-finding-bar{display:grid;grid-template-columns:45px 1fr;gap:1rem;padding:1.25rem 0;border-bottom:1px solid var(--rule)}.rfb-num{font-family:var(--mono);font-size:.55rem;color:var(--faint)}.rfb-text{font-size:.9rem;line-height:1.8;color:var(--mid)}
+    .research-kw{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}.research-kw span{font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;border:1px solid var(--rule);border-radius:999px;padding:.3rem .6rem;color:var(--faint)}
+    .pdf-row{margin-top:2rem;padding:1.25rem 1.4rem;border:1px solid var(--rule);border-radius:18px;display:flex;justify-content:space-between;align-items:center;gap:1rem}.pdf-label{font-family:var(--mono);font-size:.5rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}.pdf-row p{font-size:.82rem;color:var(--mid);margin-top:.35rem}.pdf-btn{font-family:var(--mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;border:1px solid var(--ink);padding:.65rem .85rem;border-radius:999px}
+    .contact-body-inner{max-width:var(--max);margin:auto;padding:0 var(--pad);display:grid;grid-template-columns:1fr .5fr}.contact-left{padding:4.5rem 3rem 4.5rem 0;border-right:1px solid var(--rule)}.contact-h{font-family:var(--serif);font-size:clamp(2rem,5vw,4rem);font-weight:300;font-style:italic;line-height:1.1;margin-bottom:1.25rem}.contact-sub{font-size:.9rem;line-height:1.9;color:var(--mid);max-width:52ch;margin-bottom:2rem}.clinks{display:grid}.clink{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-top:1px solid var(--rule)}.clink:last-child{border-bottom:1px solid var(--rule)}.cl-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:block}.cl-value{font-size:.86rem}.contact-right{padding:4.5rem 0 4.5rem 3rem}.st-row{display:flex;align-items:center;gap:.6rem;font-size:.85rem;margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px solid var(--rule)}.sdot{width:6px;height:6px;border-radius:50%;background:var(--s6);box-shadow:0 0 8px rgba(184,94,106,.45);animation:blink 2.5s ease-in-out infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}.role-item{font-size:.82rem;color:var(--mid);padding:.65rem 0;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between}.role-item:first-of-type{border-top:1px solid var(--rule)}
+    footer{border-top:1px solid var(--rule)}.footer-inner{max-width:var(--max);margin:auto;padding:1.5rem var(--pad);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}.footer-copy,.footer-links a{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:var(--faint)}.footer-links{display:flex;gap:1.5rem}.footer-links a{text-transform:uppercase}
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+    @media(max-width:1080px){.hero-copy{grid-template-columns:1fr 220px}.pr-detail-grid{grid-template-columns:1fr}.research-abstract{grid-template-columns:120px 1fr}}
+    @media(max-width:960px){.hero-copy{grid-template-columns:1fr}.hero-image-wrap{justify-content:flex-start}.hero-cols{grid-template-columns:1fr 1fr}.hero-col:last-child{display:none}.about-body-inner,.contact-body-inner{grid-template-columns:1fr}.about-left,.contact-left{border-right:0;border-bottom:1px solid var(--rule);padding-right:0}.about-right,.contact-right{padding-left:0}.exp-item-inner{grid-template-columns:1fr;gap:1.25rem}.research-cols{grid-template-columns:1fr}.research-card{border-right:0;border-bottom:1px solid var(--rule)}.research-card:last-child{border-bottom:0}.research-abstract{grid-template-columns:1fr;gap:.75rem}}
+    @media(max-width:640px){.nav-links{display:none}.hero-top-inner{padding-top:3rem}.hero-cols{grid-template-columns:1fr}.hero-col+.hero-col{border-left:0;border-top:1px solid var(--rule);padding-left:0}.typed-name{font-size:clamp(2.6rem,15vw,4rem);white-space:normal}.hero-subcopy{font-size:.96rem}.project-list{padding-inline:1rem}.project-row-inner{padding:1.4rem}.pr-num{display:none}.pr-title{font-size:1.55rem}.pr-desc,.pr-highlights li,.pr-detail-value{font-size:.92rem}.research-body-inner{padding:2.5rem var(--pad) 3rem}.pdf-row{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
 <body>
-  <nav id="nav">
-    <div class="nav-inner">
-      <span class="nav-logo">Wiam Salih</span>
-      <div class="nav-right">
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#research">Research</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a class="nav-cta" href="mailto:wsalih2@gmu.edu">Get in touch</a>
-      </div>
-    </div>
-  </nav>
+<nav id="nav"><div class="nav-inner">
+  <span class="nav-logo">Wiam Salih</span>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#projects">Work</a></li><li><a href="#research">Research</a></li><li><a href="#contact">Contact</a></li></ul>
+    <a class="nav-cta" href="mailto:wsalih2@gmu.edu">Get in touch</a>
+  </div>
+</div></nav>
 
-  <main>
-    <!-- ── HERO ── -->
-    <div class="hero-top reveal visible">
-      <div class="hero-top-inner">
-        <div class="hero-copy">
-          <div class="hero-text">
-            <div class="hero-intro">Hello, I'm</div>
-            <div class="typed-name-wrap">
-              <h1 class="typed-name" id="typedName" aria-label="Wiam Salih."> Wiam Salih.</h1>
-            </div>
-            <div class="hero-actions">
-              <a class="btn btn-dark" href="#projects">View Projects</a>
-              <a class="btn btn-ghost" href="https://www.linkedin.com/in/wiam-salih-454069241/" target="_blank" rel="noopener">LinkedIn ↗</a>
-            </div>
-          </div>
-          <div class="hero-image-wrap">
-            <div class="hero-image">
-              <img src="pictureofme.png" alt="Wiam Salih" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<main>
+<section class="hero-top reveal visible"><div class="hero-top-inner"><div class="hero-copy">
+  <div class="hero-text">
+    <div class="hero-kicker">Cornell Tech · Connective Media · New York</div>
+    <div class="hero-intro">Hello, I'm</div>
+    <div class="typed-name-wrap"><h1 class="typed-name" id="typedName">Wiam Salih.</h1></div>
+    <p class="hero-subcopy">I build AI products at the intersection of <strong>technology, product strategy, and human behavior</strong> — turning complex systems into experiences people can understand and trust.</p>
+    <div class="hero-actions"><a class="btn btn-dark" href="#projects">Explore selected work</a><a class="btn btn-ghost" href="#research">Read my research</a><a class="btn btn-ghost" href="https://www.linkedin.com/in/wiam-salih-454069241/" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  </div>
+  <div class="hero-image-wrap"><div class="hero-image"><img src="pictureofme.png" alt="Wiam Salih" /></div></div>
+</div></div></section>
 
-    <div class="hero-bottom">
-      <div class="hero-cols reveal visible">
-        <div class="hero-col">
-          <div>
-            <div class="col-label">Education</div>
-            <div class="col-value">George Mason University<br />B.S. Information Technology, Software Solutions<br />2x AWS Certified</div>
-          </div>
-          <div>
-            <div class="col-label">Focus</div>
-            <div class="col-value">Data Engineering<br />Analytics &amp; Cloud</div>
-          </div>
-        </div>
-        <div class="hero-col">
-          <div>
-            <div class="col-label">Location</div>
-            <div class="col-value">Arlington, VA<br />Open to relocation</div>
-          </div>
-          <div>
-            <div class="col-label">Status</div>
-            <div class="col-value">Open to full-time</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<section class="hero-bottom"><div class="hero-cols reveal visible">
+  <div class="hero-col"><div><div class="col-label">Education</div><div class="col-value big">Cornell Tech<br/>M.S. Connective Media</div></div><div><div class="col-label">Background</div><div class="col-value">Software engineering · AI · cloud systems · customer-facing technology</div></div></div>
+  <div class="hero-col"><div><div class="col-label">Now exploring</div><div class="col-value big">Human-AI interaction</div></div><div><div class="col-label">Location</div><div class="col-value">New York City</div></div></div>
+  <div class="hero-col"><div><div class="col-label">Seeking</div><div class="col-value">Summer 2027 internships in AI Product, Product Management, Product Design, UX, and Human-AI Interaction.</div></div><div><div class="col-label">Approach</div><div class="col-value">Research → prototype → ship → measure → iterate.</div></div></div>
+</div></section>
 
-    <!-- ── ABOUT ── -->
-    <div id="about">
-      <div class="s-hdr">
-        <div class="s-hdr-inner reveal">
-          <span class="s-num">01 / About</span>
-          <h2 class="s-title">Clear systems. Useful outcomes.</h2>
-        </div>
-      </div>
-      <div class="about-body">
-        <div class="about-body-inner">
-          <div class="about-left reveal">
-            <p class="about-statement">I'm a problem solver at heart, and analytical with my techniques which is why I'm fascinated by building thoughtful data products, reliable cloud workflows, and analytics experiences that make complex systems feel clear and useful.</p>
-          </div>
-          <div class="about-right reveal">
-            <div class="skill-row">
-              <div class="skill-label">Languages</div>
-              <div class="chips">
-                <span class="chip hi">Python</span>
-                <span class="chip hi">SQL</span>
-                <span class="chip">Java</span>
-                <span class="chip">JavaScript</span>
-              </div>
-            </div>
-            <div class="skill-row">
-              <div class="skill-label">Cloud &amp; Data</div>
-              <div class="chips">
-                <span class="chip hi">AWS</span>
-                <span class="chip">Glue</span>
-                <span class="chip">Lambda</span>
-                <span class="chip">S3</span>
-                <span class="chip">RDS</span>
-                <span class="chip">Redshift</span>
-                <span class="chip">ETL</span>
-                <span class="chip">Star Schema</span>
-              </div>
-            </div>
-            <div class="skill-row">
-              <div class="skill-label">Visualization</div>
-              <div class="chips">
-                <span class="chip">QuickSight</span>
-                <span class="chip">Tableau</span>
-                <span class="chip">Power BI</span>
-                <span class="chip">Oracle Analytics</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<section id="about"><div class="s-hdr"><div class="s-hdr-inner reveal"><span class="s-num">01 / About</span><h2 class="s-title">I build for people, not just systems.</h2></div></div>
+<div class="about-body"><div class="about-body-inner"><div class="about-left reveal"><p class="about-statement">My engineering background taught me how systems work. Cornell Tech is teaching me to ask a harder question: <em>how should those systems behave for the people using them?</em></p><p class="contact-sub" style="margin-top:1.5rem">My work sits between software engineering, product thinking, interaction design, and research — especially where AI changes how people understand, decide, and act.</p></div>
+<div class="about-right reveal">
+  <div class="skill-row"><div class="skill-label">Product</div><div class="chips"><span class="chip hi">Problem Definition</span><span class="chip hi">User Research</span><span class="chip hi">Product Strategy</span><span class="chip">Experimentation</span><span class="chip">Prototyping</span></div></div>
+  <div class="skill-row"><div class="skill-label">Human-AI</div><div class="chips"><span class="chip hi">AI Interfaces</span><span class="chip hi">Trust & Agency</span><span class="chip">Accessibility</span><span class="chip">Conversational AI</span><span class="chip">LLMs</span></div></div>
+  <div class="skill-row"><div class="skill-label">Engineering</div><div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">JavaScript</span><span class="chip">REST APIs</span><span class="chip">AWS</span><span class="chip">Lambda</span><span class="chip">Redshift</span></div></div>
+</div></div></div></section>
 
-    <!-- ── EXPERIENCE ── -->
-    <div id="experience">
-      <div class="s-hdr">
-        <div class="s-hdr-inner reveal">
-          <span class="s-num">02 / Experience</span>
-          <h2 class="s-title">Selected experience.</h2>
-        </div>
-      </div>
-      <div class="exp-list">
-        <div class="exp-item reveal">
-          <div class="exp-item-inner">
-            <div>
-              <div class="exp-company">Amazon Web Services</div>
-              <div class="exp-meta">May 2025 – Aug 2025<br />Seattle, WA</div>
-              <div class="exp-badge">Internship</div>
-            </div>
-            <div>
-              <div class="exp-role">Cloud Support Engineer Intern</div>
-              <ul class="exp-bullets">
-                <li>Architected end-to-end ETL pipelines across EC2, RDS, Glue, Lambda, and S3 for production data workflows.</li>
-                <li>Built anomaly detection workflows in Python and SQL, cutting weekly triage time by 10+ hours.</li>
-                <li>Reduced escalation tickets by 15% through process optimization.</li>
-                <li>Authored 10+ runbooks, improving onboarding speed by 30%.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+<section id="experience"><div class="s-hdr"><div class="s-hdr-inner reveal"><span class="s-num">02 / Experience</span><h2 class="s-title">Selected experience.</h2></div></div>
+<div class="exp-list">
+  <div class="exp-item reveal"><div class="exp-item-inner"><div><div class="exp-company">Leidos / FAA</div><div class="exp-meta">May 2026 – Jul 2026<br/>Systems Integration Test Engineer</div><div class="exp-badge">Mission-critical systems</div></div><div><div class="exp-role">Systems, customers, and product requirements</div><ul class="exp-bullets"><li>Validated mission-critical FAA air traffic management software across physical and virtual environments before customer acceptance.</li><li>Investigated distributed failures across XML messaging, networking, and software interfaces with software and systems engineers.</li><li>Partnered directly with FAA customers to verify requirements, demonstrate functionality, and support production deployments.</li><li>Used AI-assisted test generation and automation to reduce repetitive release-validation work and improve consistency.</li></ul></div></div></div>
+  <div class="exp-item reveal"><div class="exp-item-inner"><div><div class="exp-company">Amazon Web Services</div><div class="exp-meta">May 2025 – Aug 2025<br/>Cloud Support Engineer Intern</div><div class="exp-badge">AI + cloud</div></div><div><div class="exp-role">Turning technical problems into product improvements</div><ul class="exp-bullets"><li>Built Python anomaly-detection workflows that proactively surfaced infrastructure failures, reducing investigation time by 10+ hours per week.</li><li>Developed an Amazon Lex chatbot supporting 1,000+ cloud support cases by integrating Lambda, OpenSearch, Athena, CloudWatch, and QuickSight.</li><li>Designed reusable diagnostic tooling and troubleshooting workflows to improve operational efficiency across support teams.</li><li>Defined problems and drove resolution through ambiguous distributed-system failures with engineering and support partners.</li></ul></div></div></div>
+  <div class="exp-item reveal"><div class="exp-item-inner"><div><div class="exp-company">LaunchBox</div><div class="exp-meta">May 2023 – Jul 2023<br/>Product Development Lead · Trinity College Dublin</div><div class="exp-badge">Product</div></div><div><div class="exp-role">From customer feedback to MVP</div><ul class="exp-bullets"><li>Led a 5-member team to take an analytics platform from concept to MVP in eight weeks, translating customer feedback into production software.</li><li>Identified onboarding friction through user research and redesigned the experience, increasing user activation by 15%.</li><li>Collaborated across engineering, product, and business teams to prototype, test, and iterate quickly.</li></ul></div></div></div>
+</div></section>
 
-        <div class="exp-item reveal">
-          <div class="exp-item-inner">
-            <div>
-              <div class="exp-company">George Mason University</div>
-              <div class="exp-meta">Aug 2024 – Present<br />Fairfax, VA</div>
-              <div class="exp-badge">Part-Time</div>
-            </div>
-            <div>
-              <div class="exp-role">Technical Assistant — Cybersecurity Engineering</div>
-              <ul class="exp-bullets">
-                <li>Re-engineered SQL reporting systems with stronger query performance and tighter access controls.</li>
-                <li>Supported technical operations with emphasis on reliability and security-minded implementation.</li>
-                <li>Improved reporting accuracy and usability for engineering and stakeholder teams.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+<section id="projects"><div class="s-hdr"><div class="s-hdr-inner reveal"><span class="s-num">03 / Selected work</span><h2 class="s-title">Products, not just projects.</h2></div></div>
+<div class="project-list">
+  <a class="project-row reveal" href="https://wiamsalih.github.io/case-study/" target="_blank" rel="noopener"><div class="project-row-inner"><span class="pr-num">P.01</span><div><div class="pr-topline"><div class="pr-title">Skylar — AI Incident Investigation</div><span class="pr-badge">Flagship case study</span></div><div class="pr-desc">An AI-assisted incident investigation experience for engineers. The case study focuses on reducing time-to-diagnosis while preserving human judgment, inspectability, and control.</div><div class="pr-detail-grid"><div class="pr-detail"><div class="pr-detail-label">User problem</div><div class="pr-detail-value">Engineers must piece together alerts, logs, metrics, and deployment context during incidents.</div></div><div class="pr-detail"><div class="pr-detail-label">Product question</div><div class="pr-detail-value">What should AI automate, and what should remain visible and controllable to the engineer?</div></div><div class="pr-detail"><div class="pr-detail-label">Evidence</div><div class="pr-detail-value">10K+ daily events; 40% reduction in investigation time in the current prototype.</div></div></div><ul class="pr-highlights"><li>Combined cloud pipelines, anomaly detection, LLM analysis, and an investigation interface.</li><li>Designed around explainability, uncertainty, and expert user control rather than a black-box answer.</li><li>Built the system end-to-end while using research to shape the interaction model.</li></ul><div class="pr-tags"><span class="pr-tag">AI Product</span><span class="pr-tag">Human-AI</span><span class="pr-tag">AWS</span><span class="pr-tag">UX</span></div></div><span class="pr-arrow">↗</span></div></a>
+  <a class="project-row reveal" href="https://wiamsalih-finance-chatbot.hf.space/" target="_blank" rel="noopener"><div class="project-row-inner"><span class="pr-num">P.02</span><div><div class="pr-topline"><div class="pr-title">FinBot — AI Financial Literacy</div><span class="pr-badge">Live prototype</span></div><div class="pr-desc">A conversational financial assistant exploring how AI can make complex financial information more understandable without creating false confidence.</div><div class="pr-detail-grid"><div class="pr-detail"><div class="pr-detail-label">Design question</div><div class="pr-detail-value">How much explanation does a novice need to make a good decision?</div></div><div class="pr-detail"><div class="pr-detail-label">My role</div><div class="pr-detail-value">Full-stack product builder across AI behavior, interface, data preparation, and deployment.</div></div><div class="pr-detail"><div class="pr-detail-label">Next study</div><div class="pr-detail-value">Compare novice and expert users on comprehension, trust, and willingness to challenge AI.</div></div></div><ul class="pr-highlights"><li>Built the conversational experience with Python, REST APIs, LLMs, prompt engineering, and SQL.</li><li>Uses the research question of expertise-aware AI as the basis for the next product iteration.</li></ul><div class="pr-tags"><span class="pr-tag">Product Design</span><span class="pr-tag">LLMs</span><span class="pr-tag">Research</span><span class="pr-tag">Python</span></div></div><span class="pr-arrow">↗</span></div></a>
+  <div class="project-row reveal" style="cursor:default"><div class="project-row-inner"><span class="pr-num">P.03</span><div><div class="pr-topline"><div class="pr-title">Expertise-Aware AI</div><span class="pr-badge">Research → product</span></div><div class="pr-desc">An ongoing Cornell Tech direction: designing AI interfaces that adapt to what users know, how much context they need, and how much control they expect.</div><div class="pr-detail-grid"><div class="pr-detail"><div class="pr-detail-label">Research</div><div class="pr-detail-value">Comparing expert and novice interaction patterns, trust, comprehension, and agency.</div></div><div class="pr-detail"><div class="pr-detail-label">Design principle</div><div class="pr-detail-value">Accessibility is not one interface setting; it changes with user expertise and context.</div></div><div class="pr-detail"><div class="pr-detail-label">Current status</div><div class="pr-detail-value">Developing study protocols, prototypes, and evaluation criteria at Cornell Tech.</div></div></div><div class="pr-tags"><span class="pr-tag">Human-AI Interaction</span><span class="pr-tag">UX Research</span><span class="pr-tag">Accessibility</span></div></div></div></div>
+</div></section>
 
-        <div class="exp-item reveal">
-          <div class="exp-item-inner">
-            <div>
-              <div class="exp-company">Trinity College Dublin, LaunchBox</div>
-              <div class="exp-meta">May 2023 – Jul 2023<br />Dublin, Ireland</div>
-              <div class="exp-badge">Internship</div>
-            </div>
-            <div>
-              <div class="exp-role">Product Development Lead</div>
-              <ul class="exp-bullets">
-                <li>Directed 5-member team to deliver MVP analytics platform for pilot clients.</li>
-                <li>Built dashboards uncovering 15% conversion optimization opportunity.</li>
-                <li>Presented data insights to 20+ stakeholders, securing adoption and funding.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<section id="research"><div class="s-hdr"><div class="s-hdr-inner reveal"><span class="s-num">04 / Research</span><h2 class="s-title">Questions I keep coming back to.</h2></div></div>
+<div class="research-body"><div class="research-body-inner reveal">
+  <div class="research-top"><div><h3 class="research-paper-title">Bridging Expertise Gaps: A Comparative Study of AI Accessibility Across User Populations</h3><div class="research-meta"><span><strong>Author</strong> Wiam Salih</span><span><strong>Institution</strong> Cornell Tech / prior GMU research</span><span><strong>Draft</strong> January 2026</span></div></div><div class="status-pill"><span class="sdot-sm"></span>Ongoing inquiry</div></div>
+  <div class="research-abstract"><div class="research-abstract-label">Thesis</div><p>AI systems often assume a generic user. My research asks what changes when the user is an expert versus a novice — and how interface design can preserve both <strong>comprehension and agency</strong>. The work connects Skylar's expert workflow with FinBot's general-audience experience.</p></div>
+  <div class="research-cols"><div class="research-card"><div class="rc-label">Question 01</div><div class="rc-title">How should AI adapt to expertise?</div><div class="rc-body">Experts often need efficient access to detailed evidence; novices need explanations that help them build a mental model.</div></div><div class="research-card"><div class="rc-label">Question 02</div><div class="rc-title">What creates trustworthy interaction?</div><div class="rc-body">Trust is shaped not only by accuracy, but by whether people understand what the AI is doing and feel able to disagree.</div></div><div class="research-card"><div class="rc-label">Question 03</div><div class="rc-title">What should stay human?</div><div class="rc-body">The goal is not maximum automation. It is deciding which parts of a workflow AI can accelerate without removing meaningful user control.</div></div></div>
+  <div class="findings-block"><div class="findings-label">Preliminary findings</div><div class="research-finding-bar"><span class="rfb-num">01</span><div class="rfb-text"><strong>Trust is about agency, not accuracy.</strong> Early observations suggest users care about whether they can challenge or disagree with the system, not simply whether it produces a correct answer.</div></div><div class="research-finding-bar"><span class="rfb-num">02</span><div class="rfb-text"><strong>Accessibility changes with expertise.</strong> Experts benefit from dense diagnostic evidence; novices benefit from explanations that build foundational understanding.</div></div><div class="research-finding-bar"><span class="rfb-num">03</span><div class="rfb-text"><strong>Expertise should shape interaction.</strong> Vocabulary, information density, transparency, and follow-up behavior should be calibrated to the user's background and task.</div></div></div>
+  <div class="research-kw"><span>Human-AI Interaction</span><span>Conversational AI</span><span>Accessibility</span><span>Trust & Agency</span><span>Expertise Levels</span><span>Natural Language Interfaces</span><span>Mixed-Methods Research</span></div>
+  <div class="pdf-row"><div><div class="pdf-label">Working Draft · January 2026</div><p>Full paper including system descriptions, methodology, and preliminary findings.</p></div><a class="pdf-btn" href="Salih_Research_Paper_Draft.pdf" target="_blank" rel="noopener">Read paper ↗</a></div>
+</div></div></section>
 
-    <!-- ── PROJECTS ── -->
-    <div id="projects">
-      <div class="s-hdr">
-        <div class="s-hdr-inner reveal">
-          <span class="s-num">03 / Projects</span>
-          <h2 class="s-title">Selected work.</h2>
-        </div>
-      </div>
+<section id="contact"><div class="s-hdr"><div class="s-hdr-inner reveal"><span class="s-num">05 / Contact</span><h2 class="s-title">Let's build something useful.</h2></div></div>
+<div class="contact-body"><div class="contact-body-inner"><div class="contact-left reveal"><h3 class="contact-h">Open to<br/>Summer 2027.</h3><p class="contact-sub">I'm looking for opportunities where I can work across product, design, AI, and engineering — especially on products that change how people interact with technology.</p><div class="clinks"><a class="clink" href="mailto:wsalih2@gmu.edu"><div><span class="cl-label">Email</span><span class="cl-value">wsalih2@gmu.edu</span></div><span>↗</span></a><a class="clink" href="https://www.linkedin.com/in/wiam-salih-454069241/" target="_blank" rel="noopener"><div><span class="cl-label">LinkedIn</span><span class="cl-value">linkedin.com/in/wiam-salih-454069241</span></div><span>↗</span></a><a class="clink" href="https://github.com/wiamsalih" target="_blank" rel="noopener"><div><span class="cl-label">GitHub</span><span class="cl-value">github.com/wiamsalih</span></div><span>↗</span></a></div></div>
+<div class="contact-right reveal"><div class="st-label">Target roles</div><div class="st-row"><span class="sdot"></span><span>Summer 2027 internship search</span></div><div class="roles-label">Interested in</div><div class="role-item"><span>AI Product</span><span>↗</span></div><div class="role-item"><span>Product Management</span><span>↗</span></div><div class="role-item"><span>Product / UX Design</span><span>↗</span></div><div class="role-item"><span>Human-AI Interaction</span><span>↗</span></div></div></div></div></section>
+</main>
 
-      <div class="project-list">
-        <a class="project-row reveal" href="https://wiamsalih.github.io/case-study/" target="_blank" rel="noopener">
-          <div class="project-row-inner">
-            <span class="pr-num">P.01</span>
-            <div>
-              <div class="pr-topline">
-                <div class="pr-title">Oracle Analytics Retail Intelligence</div>
-                <span class="pr-badge">Case study</span>
-              </div>
-              <div class="pr-desc">A retail analytics project focused on turning raw operational data into predictive insight, clearer reporting, and decision support through end-to-end ingestion, cleaning, modeling, and dashboard design.</div>
-              <div class="pr-detail-grid">
-                <div class="pr-detail">
-                  <div class="pr-detail-label">What it does</div>
-                  <div class="pr-detail-value">Highlights customer and retail trends through reporting and predictive analysis.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">My contribution</div>
-                  <div class="pr-detail-value">Handled pipeline design, transformation logic, and analytics presentation.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">Focus</div>
-                  <div class="pr-detail-value">Used business questions to shape the metrics, model outputs, and dashboard structure.</div>
-                </div>
-              </div>
-              <ul class="pr-highlights">
-                <li>Built the project as a complete analytics flow rather than just a final dashboard.</li>
-                <li>Used Oracle Analytics and ML concepts to connect raw data with clearer business-facing output.</li>
-              </ul>
-              <div class="pr-tags"><span class="pr-tag">Oracle Analytics</span><span class="pr-tag">ML</span><span class="pr-tag">ETL</span></div>
-            </div>
-            <span class="pr-arrow">↗</span>
-          </div>
-        </a>
-
-        <a class="project-row reveal" href="https://github.com/wiamsalih" target="_blank" rel="noopener">
-          <div class="project-row-inner">
-            <span class="pr-num">P.02</span>
-            <div>
-              <div class="pr-topline">
-                <div class="pr-title">Skylar — Cloud Operations Analytics</div>
-                <span class="pr-badge">Cloud platform</span>
-              </div>
-              <div class="pr-desc">Serverless data engineering platform processing 10K+ daily log events with automated anomaly detection, star-schema modeling, and real-time analytics dashboards.</div>
-              <div class="pr-detail-grid">
-                <div class="pr-detail">
-                  <div class="pr-detail-label">What it does</div>
-                  <div class="pr-detail-value">Processes cloud log data in real time and surfaces anomalies through dashboards and automated workflows.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">My contribution</div>
-                  <div class="pr-detail-value">Designed the full serverless pipeline, data modeling, and analytics layer across AWS services.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">Impact</div>
-                  <div class="pr-detail-value">Reduced incident investigation time by 40% through automation and NLP-assisted insights.</div>
-                </div>
-              </div>
-              <ul class="pr-highlights">
-                <li>Built using AWS Lambda, Redshift, and Python for scalable data processing.</li>
-                <li>Implemented star schema modeling to support efficient analytics and querying.</li>
-                <li>Integrated NLP chatbot to assist with faster issue diagnosis.</li>
-              </ul>
-              <div class="pr-tags"><span class="pr-tag">AWS</span><span class="pr-tag">Lambda</span><span class="pr-tag">Redshift</span><span class="pr-tag">Python</span><span class="pr-tag">ETL</span></div>
-            </div>
-            <span class="pr-arrow">↗</span>
-          </div>
-        </a>
-
-        <a class="project-row reveal" href="https://wiamsalih-finance-chatbot.hf.space/" target="_blank" rel="noopener">
-          <div class="project-row-inner">
-            <span class="pr-num">P.03</span>
-            <div>
-              <div class="pr-topline">
-                <div class="pr-title">AI Financial Advisory Chatbot</div>
-                <span class="pr-badge">Live demo</span>
-              </div>
-              <div class="pr-desc">An interactive financial assistant built to answer user questions with NLP-driven responses, supported by Python and SQL workflows for cleaner data preparation and easier deployment.</div>
-              <div class="pr-detail-grid">
-                <div class="pr-detail">
-                  <div class="pr-detail-label">What it does</div>
-                  <div class="pr-detail-value">Translates financial questions into fast, accessible answers through a conversational interface.</div>
-                </div>
-              </div>
-              <ul class="pr-highlights">
-                <li>Created a full pipeline from data prep to live interface with a focus on usability and maintainability.</li>
-                <li>Combined Python, SQL, and NLP tooling to support cleaner answers and smoother user interaction.</li>
-              </ul>
-              <div class="pr-tags"><span class="pr-tag">Python</span><span class="pr-tag">NLP</span><span class="pr-tag">SQL</span><span class="pr-tag">Hugging Face</span></div>
-            </div>
-            <span class="pr-arrow">↗</span>
-          </div>
-        </a>
-
-        <a class="project-row reveal" href="https://drive.google.com/uc?export=download&id=1K82K-Tf0lvsUIT9jIIX1hgTYWp4SwtBL" target="_blank" rel="noopener">
-          <div class="project-row-inner">
-            <span class="pr-num">P.04</span>
-            <div>
-              <div class="pr-topline">
-                <div class="pr-title">Portfolio Management Dashboard</div>
-                <span class="pr-badge">Dashboard</span>
-              </div>
-              <div class="pr-desc">A finance dashboard designed to make investment performance easier to understand through portfolio breakdowns, asset allocation visibility, and clear performance tracking.</div>
-              <div class="pr-detail-grid">
-                <div class="pr-detail">
-                  <div class="pr-detail-label">What it shows</div>
-                  <div class="pr-detail-value">Asset allocation, performance attribution, and risk-oriented visibility in one place.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">My contribution</div>
-                  <div class="pr-detail-value">Designed the dashboard logic and structured the visuals around practical investment questions.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">Why it matters</div>
-                  <div class="pr-detail-value">Makes complex portfolio information easier to scan, compare, and explain.</div>
-                </div>
-              </div>
-              <ul class="pr-highlights">
-                <li>Focused on readability so the dashboard communicates quickly without overwhelming the viewer.</li>
-                <li>Balanced analytics detail with presentation quality for a cleaner final experience.</li>
-              </ul>
-              <div class="pr-tags"><span class="pr-tag">Tableau</span><span class="pr-tag">Finance</span><span class="pr-tag">Analytics</span></div>
-            </div>
-            <span class="pr-arrow">↗</span>
-          </div>
-        </a>
-
-        <a class="project-row reveal" href="https://github.com/wiamsalih/wiamsalih-github.io/blob/main/S4_A1_SALIH_WIAM.sql" target="_blank" rel="noopener">
-          <div class="project-row-inner">
-            <span class="pr-num">P.05</span>
-            <div>
-              <div class="pr-topline">
-                <div class="pr-title">Soccer League Relational Database</div>
-                <span class="pr-badge">SQL project</span>
-              </div>
-              <div class="pr-desc">A normalized database design for teams, games, coaches, and players, built to support structured queries, clean relationships, and stronger data integrity across the full schema.</div>
-              <div class="pr-detail-grid">
-                <div class="pr-detail">
-                  <div class="pr-detail-label">What it does</div>
-                  <div class="pr-detail-value">Models league operations through relational structure and queryable entities.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">My contribution</div>
-                  <div class="pr-detail-value">Designed the schema, normalized the relationships, and implemented the SQL logic.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">Technical focus</div>
-                  <div class="pr-detail-value">Centered on ER modeling, integrity constraints, and more advanced querying.</div>
-                </div>
-              </div>
-              <ul class="pr-highlights">
-                <li>Built with strong relational thinking instead of flat-table shortcuts.</li>
-                <li>Shows database design skills alongside practical SQL implementation.</li>
-              </ul>
-              <div class="pr-tags"><span class="pr-tag">SQL</span><span class="pr-tag">Database Design</span><span class="pr-tag">ER Modeling</span></div>
-            </div>
-            <span class="pr-arrow">↗</span>
-          </div>
-        </a>
-
-        <a class="project-row reveal" href="https://github.com/wiamsalih/wiamsalih-github.io/blob/main/P5.java" target="_blank" rel="noopener">
-          <div class="project-row-inner">
-            <span class="pr-num">P.06</span>
-            <div>
-              <div class="pr-topline">
-                <div class="pr-title">Palette Perfection</div>
-                <span class="pr-badge">Java app</span>
-              </div>
-              <div class="pr-desc">A Java application that automates paint pricing, labor cost calculation, and customer-facing business rules using object-oriented structure and clear program logic.</div>
-              <div class="pr-detail-grid">
-                <div class="pr-detail">
-                  <div class="pr-detail-label">What it does</div>
-                  <div class="pr-detail-value">Calculates project cost details based on paint quantities, labor, and customer inputs.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">My contribution</div>
-                  <div class="pr-detail-value">Built the application logic and organized the code with an OOP-driven approach.</div>
-                </div>
-                <div class="pr-detail">
-                  <div class="pr-detail-label">Why it stands out</div>
-                  <div class="pr-detail-value">Shows business logic thinking, code organization, and practical automation in Java.</div>
-                </div>
-              </div>
-              <ul class="pr-highlights">
-                <li>Structured the project around maintainable classes and reusable logic.</li>
-                <li>Designed for accuracy, readability, and clearer real-world calculations.</li>
-              </ul>
-              <div class="pr-tags"><span class="pr-tag">Java</span><span class="pr-tag">OOP</span><span class="pr-tag">Business Logic</span></div>
-            </div>
-            <span class="pr-arrow">↗</span>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- ── RESEARCH ── -->
-    <div id="research">
-      <div class="s-hdr">
-        <div class="s-hdr-inner reveal">
-          <span class="s-num">04 / Research</span>
-          <h2 class="s-title">Ongoing inquiry.</h2>
-        </div>
-      </div>
-      <div class="research-body">
-        <div class="research-body-inner reveal">
-
-          <!-- Paper header -->
-          <div class="research-top">
-            <div>
-              <h3 class="research-paper-title">Bridging Expertise Gaps: A Comparative Study of AI Accessibility Across User Populations</h3>
-              <div class="research-meta">
-                <span><strong>Author</strong>&nbsp; Wiam Salih</span>
-                <span><strong>Institution</strong>&nbsp; George Mason University</span>
-                <span><strong>Department</strong>&nbsp; Information Sciences &amp; Technology</span>
-                <span><strong>Draft</strong>&nbsp; January 2026</span>
-              </div>
-            </div>
-            <div class="status-pill">
-              <span class="sdot-sm"></span>
-              Data collection in progress
-            </div>
-          </div>
-
-          <!-- Abstract -->
-          <div class="research-abstract">
-            <div class="research-abstract-label">Abstract</div>
-            <p>Conversational AI systems promise to democratize access to complex technical domains, yet designing for accessibility remains challenging when user populations span from complete novices to domain experts. This paper examines AI accessibility through two contrasting case studies <strong>Skylar</strong>, an AI agent for cloud infrastructure targeting experienced engineers, and <strong>FinBot</strong>, a financial literacy chatbot for general audiences investigating how user expertise shapes interaction patterns, trust formation, and comprehension.</p>
-          </div>
-
-          <!-- Research questions -->
-          <div class="research-cols">
-            <div class="research-card">
-              <div class="rc-label">Research question 01</div>
-              <div class="rc-title">How do design requirements differ across expertise levels?</div>
-              <div class="rc-body">Comparing what expert cloud engineers need from AI versus what novice middle school students need and why a single system optimized for one fails the other.</div>
-            </div>
-            <div class="research-card">
-              <div class="rc-label">Research question 02</div>
-              <div class="rc-title">How do novices form mental models of AI?</div>
-              <div class="rc-body">Investigating the questions, misconceptions, and trust patterns that emerge when students ages 11–13 interact with domain-specific conversational AI for the first time.</div>
-            </div>
-            <div class="research-card">
-              <div class="rc-label">Research question 03</div>
-              <div class="rc-title">What principles bridge the expertise spectrum?</div>
-              <div class="rc-body">Deriving evidence-based design guidelines for building AI systems that serve diverse user populations without sacrificing usability for either end of the spectrum.</div>
-            </div>
-          </div>
-
-          <!-- Preliminary findings -->
-          <div class="findings-block">
-            <div class="findings-label">Preliminary findings</div>
-            <div class="research-finding-bar">
-              <span class="rfb-num">01</span>
-              <div class="rfb-text"><strong>Trust is about agency, not accuracy.</strong> Students' most frequent questions were not about whether the AI was correct but about whether they were <em>allowed to disagree</em> with it. This was not anticipated and is reshaping the paper's theoretical framework.</div>
-            </div>
-            <div class="research-finding-bar">
-              <span class="rfb-num">02</span>
-              <div class="rfb-text"><strong>Accessibility is not one thing.</strong> For experts, it means efficient access to detailed diagnostic data. For novices, it means comprehensible explanations that build foundational knowledge. The same backend succeeds or fails entirely based on how it presents itself.</div>
-            </div>
-            <div class="research-finding-bar">
-              <span class="rfb-num">03</span>
-              <div class="rfb-text"><strong>Expertise shapes every design decision.</strong> Vocabulary, information density, transparency, and follow-up behavior all require calibration to user background not to a generic "user." This has direct implications for general-purpose AI design.</div>
-            </div>
-          </div>
-
-          <!-- Keywords -->
-          <div class="research-kw">
-            <span>Human-AI Interaction</span>
-            <span>Conversational AI</span>
-            <span>Accessibility</span>
-            <span>Trust Formation</span>
-            <span>Expertise Levels</span>
-            <span>Natural Language Interfaces</span>
-            <span>Mixed-Methods Research</span>
-          </div>
-
-          <!-- PDF download -->
-          <div class="pdf-row">
-            <div class="pdf-row-text">
-              <div class="pdf-label">Working Draft · January 2026</div>
-              <p>Full paper including system descriptions, methodology, and preliminary findings.</p>
-            </div>
-            <a class="pdf-btn" href="Salih_Research_Paper_Draft.pdf" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 15V3M12 15l-4-4M12 15l4-4M2 17v2a2 2 0 002 2h16a2 2 0 002-2v-2"/>
-              </svg>
-              Read paper
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CONTACT ── -->
-    <div id="contact">
-      <div class="s-hdr">
-        <div class="s-hdr-inner reveal">
-          <span class="s-num">05 / Contact</span>
-          <h2 class="s-title">Let's get in touch.</h2>
-        </div>
-      </div>
-      <div class="contact-body">
-        <div class="contact-body-inner">
-          <div class="contact-left reveal">
-            <h3 class="contact-h">Open to <br />Opportunities.</h3>
-            <div class="clinks">
-              <a class="clink" href="mailto:wsalih2@gmu.edu">
-                <div><span class="cl-label">Email</span><span class="cl-value">wiamsalih12@gmail.com</span></div>
-                <span class="cl-arrow">↗</span>
-              </a>
-              <a class="clink" href="https://www.linkedin.com/in/wiam-salih-454069241/" target="_blank" rel="noopener">
-                <div><span class="cl-label">LinkedIn</span><span class="cl-value">linkedin.com/in/wiam-salih-454069241</span></div>
-                <span class="cl-arrow">↗</span>
-              </a>
-              <a class="clink" href="https://github.com/wiamsalih" target="_blank" rel="noopener">
-                <div><span class="cl-label">GitHub</span><span class="cl-value">github.com/wiamsalih</span></div>
-                <span class="cl-arrow">↗</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="contact-right reveal">
-            <div class="st-label">Current status</div>
-            <div class="st-row"><span class="sdot"></span><span>Available for full-time opportunities</span></div>
-            <div class="roles-label">Interested in</div>
-            <div class="role-item"><span>Data Engineering</span><span class="role-arr">↗</span></div>
-            <div class="role-item"><span>Analytics Engineering</span><span class="role-arr">↗</span></div>
-            <div class="role-item"><span>Cloud Data Roles</span><span class="role-arr">↗</span></div>
-            <div class="role-item"><span>Business Intelligence</span><span class="role-arr">↗</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-copy">© 2026 Wiam Salih</div>
-      <div class="footer-links">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#research">Research</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-    });
-
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach((el) => observer.observe(el));
-
-    const typedName = document.getElementById('typedName');
-    const text = 'Wiam Salih.';
-    typedName.textContent = '';
-    let index = 0;
-
-    function typeEffect() {
-      if (index < text.length) {
-        typedName.innerHTML = text.slice(0, index + 1) + '<span class="cursor"></span>';
-        index += 1;
-        setTimeout(typeEffect, 90);
-      } else {
-        typedName.innerHTML = text + '<span class="cursor"></span>';
-      }
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(typeEffect, 350);
-    });
-  </script>
+<footer><div class="footer-inner"><div class="footer-copy">© 2026 Wiam Salih</div><div class="footer-links"><a href="#about">About</a><a href="#projects">Work</a><a href="#research">Research</a><a href="#contact">Contact</a></div></div></footer>
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>20));
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>
