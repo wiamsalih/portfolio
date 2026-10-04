@@ -586,6 +586,29 @@
       padding: 0.22rem 0.58rem;
       background: rgba(255,255,255,0.18);
     }
+    .pr-links {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.1rem;
+    }
+    .pr-link {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 0.55rem 0.95rem;
+      background: rgba(255,255,255,0.32);
+      transition: background .2s, border-color .2s;
+    }
+    .pr-link:hover,
+    .pr-link:focus-visible {
+      background: rgba(255,255,255,0.7);
+      border-color: rgba(122,96,85,0.45);
+    }
     .pr-arrow {
       font-size: 1.2rem;
       color: var(--faint);
@@ -1024,7 +1047,8 @@
     body.a11y-contrast .chip,
     body.a11y-contrast .pr-tag,
     body.a11y-contrast .exp-badge,
-    body.a11y-contrast .pr-badge { border-color: #ffe27a !important; color: #fff !important; background: #000 !important; }
+    body.a11y-contrast .pr-badge,
+    body.a11y-contrast .pr-link { border-color: #ffe27a !important; color: #fff !important; background: #000 !important; }
     body.a11y-contrast .rule,
     body.a11y-contrast * { border-color: #ffe27a !important; }
 
@@ -1250,7 +1274,7 @@
       </div>
 
       <div class="project-list">
-        <a class="project-row reveal" href="https://second-serving-app.vercel.app/" target="_blank" rel="noopener">
+        <div class="project-row reveal">
           <div class="project-row-inner">
             <span class="pr-num">P.01</span>
             <div>
@@ -1278,10 +1302,13 @@
                 <li>GitHub Actions rebuilds the warehouse and redeploys the site every morning, so the dashboard stays current.</li>
               </ul>
               <div class="pr-tags"><span class="pr-tag">JavaScript</span><span class="pr-tag">Supabase</span><span class="pr-tag">dbt</span><span class="pr-tag">DuckDB</span><span class="pr-tag">GitHub Actions</span><span class="pr-tag">Product Analytics</span></div>
+              <div class="pr-links">
+                <a class="pr-link" href="https://second-serving-app.vercel.app/" target="_blank" rel="noopener">Live site ↗</a>
+                <a class="pr-link" href="https://second-serving-app.vercel.app/dashboard.html" target="_blank" rel="noopener">Metrics dashboard ↗</a>
+              </div>
             </div>
-            <span class="pr-arrow">↗</span>
           </div>
-        </a>
+        </div>
 
         <a class="project-row reveal" href="https://buffer-sans-98171222.figma.site" target="_blank" rel="noopener">
           <div class="project-row-inner">
